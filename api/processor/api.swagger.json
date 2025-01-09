@@ -1,0 +1,244 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "processor/api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ProcessorService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/transactions": {
+      "post": {
+        "operationId": "CreateTransaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateTransactionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateTransactionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    },
+    "/api/v1/users/{user_id}/balance": {
+      "get": {
+        "operationId": "ListUserBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListUserBalanceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    },
+    "/api/v1/users/{user_id}/transactions": {
+      "get": {
+        "operationId": "ListUserTransactions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListUserTransactionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiCreateTransactionRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "type": {
+          "$ref": "#/definitions/apiTransactionType"
+        }
+      }
+    },
+    "apiCreateTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "apiListUserBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiListUserBalanceResponseData"
+          }
+        }
+      }
+    },
+    "apiListUserBalanceResponseData": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "apiListUserTransactionsResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiListUserTransactionsResponseData"
+          }
+        }
+      }
+    },
+    "apiListUserTransactionsResponseData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "type": {
+          "$ref": "#/definitions/apiTransactionType"
+        }
+      }
+    },
+    "apiTransactionType": {
+      "type": "string",
+      "enum": [
+        "Deposit",
+        "Withdraw"
+      ],
+      "default": "Deposit"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

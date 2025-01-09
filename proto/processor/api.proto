@@ -1,0 +1,23 @@
+syntax = "proto3";
+package backend.processor.api;
+import "google/api/annotations.proto";
+import "processor/data.proto";
+
+service ProcessorService {
+  rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/transactions",
+      body : "*",
+    };
+  }
+  rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
+    option (google.api.http) = {
+      get : "/api/v1/users/{user_id}/transactions",
+    };
+  }
+  rpc ListUserBalance(ListUserBalanceRequest) returns (ListUserBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/v1/users/{user_id}/balance",
+    };
+  }
+}
