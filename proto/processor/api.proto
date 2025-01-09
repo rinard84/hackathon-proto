@@ -10,14 +10,14 @@ service ProcessorService {
       body : "*",
     };
   }
+  rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/v1/users/{user_id}/balance",
+    };
+  }
   rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
     option (google.api.http) = {
       get : "/api/v1/users/{user_id}/transactions",
-    };
-  }
-  rpc ListUserBalance(ListUserBalanceRequest) returns (ListUserBalanceResponse) {
-    option (google.api.http) = {
-      get : "/api/v1/users/{user_id}/balance",
     };
   }
 }

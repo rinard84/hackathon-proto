@@ -17,6 +17,15 @@ message CreateTransactionResponse {
   string message = 2;
 }
 
+message GetUserBalanceRequest {
+  int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
+}
+message GetUserBalanceResponse {
+  bool success = 1;
+  string message = 2;
+  double balance = 3;
+}
+
 message ListUserTransactionsRequest {
   int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
 }
@@ -26,18 +35,6 @@ message ListUserTransactionsResponse {
     int64 user_id = 2;
     double amount = 3;
     TransactionType type = 4;
-  }
-  bool success = 1;
-  string message = 2;
-  repeated Data data = 3;
-}
-
-message ListUserBalanceRequest {
-  int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
-}
-message ListUserBalanceResponse {
-  message Data {
-    double balance = 1;
   }
   bool success = 1;
   string message = 2;

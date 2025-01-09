@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ProcessorService_CreateTransaction_FullMethodName    = "/backend.processor.api.ProcessorService/CreateTransaction"
+	ProcessorService_GetUserBalance_FullMethodName       = "/backend.processor.api.ProcessorService/GetUserBalance"
 	ProcessorService_ListUserTransactions_FullMethodName = "/backend.processor.api.ProcessorService/ListUserTransactions"
-	ProcessorService_ListUserBalance_FullMethodName      = "/backend.processor.api.ProcessorService/ListUserBalance"
 )
 
 // ProcessorServiceClient is the client API for ProcessorService service.
@@ -29,8 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProcessorServiceClient interface {
 	CreateTransaction(ctx context.Context, in *CreateTransactionRequest, opts ...grpc.CallOption) (*CreateTransactionResponse, error)
+	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
-	ListUserBalance(ctx context.Context, in *ListUserBalanceRequest, opts ...grpc.CallOption) (*ListUserBalanceResponse, error)
 }
 
 type processorServiceClient struct {
@@ -50,18 +50,18 @@ func (c *processorServiceClient) CreateTransaction(ctx context.Context, in *Crea
 	return out, nil
 }
 
-func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error) {
-	out := new(ListUserTransactionsResponse)
-	err := c.cc.Invoke(ctx, ProcessorService_ListUserTransactions_FullMethodName, in, out, opts...)
+func (c *processorServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error) {
+	out := new(GetUserBalanceResponse)
+	err := c.cc.Invoke(ctx, ProcessorService_GetUserBalance_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *processorServiceClient) ListUserBalance(ctx context.Context, in *ListUserBalanceRequest, opts ...grpc.CallOption) (*ListUserBalanceResponse, error) {
-	out := new(ListUserBalanceResponse)
-	err := c.cc.Invoke(ctx, ProcessorService_ListUserBalance_FullMethodName, in, out, opts...)
+func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error) {
+	out := new(ListUserTransactionsResponse)
+	err := c.cc.Invoke(ctx, ProcessorService_ListUserTransactions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +73,8 @@ func (c *processorServiceClient) ListUserBalance(ctx context.Context, in *ListUs
 // for forward compatibility
 type ProcessorServiceServer interface {
 	CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error)
+	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
-	ListUserBalance(context.Context, *ListUserBalanceRequest) (*ListUserBalanceResponse, error)
 	mustEmbedUnimplementedProcessorServiceServer()
 }
 
@@ -85,11 +85,11 @@ type UnimplementedProcessorServiceServer struct {
 func (UnimplementedProcessorServiceServer) CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaction not implemented")
 }
+func (UnimplementedProcessorServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
+}
 func (UnimplementedProcessorServiceServer) ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserTransactions not implemented")
-}
-func (UnimplementedProcessorServiceServer) ListUserBalance(context.Context, *ListUserBalanceRequest) (*ListUserBalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListUserBalance not implemented")
 }
 func (UnimplementedProcessorServiceServer) mustEmbedUnimplementedProcessorServiceServer() {}
 
@@ -122,6 +122,24 @@ func _ProcessorService_CreateTransaction_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProcessorService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProcessorServiceServer).GetUserBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProcessorService_GetUserBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProcessorServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProcessorService_ListUserTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListUserTransactionsRequest)
 	if err := dec(in); err != nil {
@@ -140,24 +158,6 @@ func _ProcessorService_ListUserTransactions_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProcessorService_ListUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListUserBalanceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProcessorServiceServer).ListUserBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProcessorService_ListUserBalance_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcessorServiceServer).ListUserBalance(ctx, req.(*ListUserBalanceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ProcessorService_ServiceDesc is the grpc.ServiceDesc for ProcessorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,12 +170,12 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProcessorService_CreateTransaction_Handler,
 		},
 		{
-			MethodName: "ListUserTransactions",
-			Handler:    _ProcessorService_ListUserTransactions_Handler,
+			MethodName: "GetUserBalance",
+			Handler:    _ProcessorService_GetUserBalance_Handler,
 		},
 		{
-			MethodName: "ListUserBalance",
-			Handler:    _ProcessorService_ListUserBalance_Handler,
+			MethodName: "ListUserTransactions",
+			Handler:    _ProcessorService_ListUserTransactions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

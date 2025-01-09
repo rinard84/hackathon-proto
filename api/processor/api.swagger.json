@@ -50,12 +50,12 @@
     },
     "/api/v1/users/{user_id}/balance": {
       "get": {
-        "operationId": "ListUserBalance",
+        "operationId": "GetUserBalance",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiListUserBalanceResponse"
+              "$ref": "#/definitions/apiGetUserBalanceResponse"
             }
           },
           "default": {
@@ -112,6 +112,26 @@
     }
   },
   "definitions": {
+    "ListUserTransactionsResponseData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "type": {
+          "$ref": "#/definitions/apiTransactionType"
+        }
+      }
+    },
     "apiCreateTransactionRequest": {
       "type": "object",
       "properties": {
@@ -139,7 +159,7 @@
         }
       }
     },
-    "apiListUserBalanceResponse": {
+    "apiGetUserBalanceResponse": {
       "type": "object",
       "properties": {
         "success": {
@@ -148,18 +168,6 @@
         "message": {
           "type": "string"
         },
-        "data": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/apiListUserBalanceResponseData"
-          }
-        }
-      }
-    },
-    "apiListUserBalanceResponseData": {
-      "type": "object",
-      "properties": {
         "balance": {
           "type": "number",
           "format": "double"
@@ -179,28 +187,8 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/apiListUserTransactionsResponseData"
+            "$ref": "#/definitions/ListUserTransactionsResponseData"
           }
-        }
-      }
-    },
-    "apiListUserTransactionsResponseData": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "user_id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "amount": {
-          "type": "number",
-          "format": "double"
-        },
-        "type": {
-          "$ref": "#/definitions/apiTransactionType"
         }
       }
     },
