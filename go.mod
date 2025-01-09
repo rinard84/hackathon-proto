@@ -1,4 +1,4 @@
-module github.com/rinard84/hackathon/proto
+module github.com/rinard84/hackathon-proto
 
 go 1.22.3
 
