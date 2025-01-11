@@ -17,26 +17,6 @@
   ],
   "paths": {
     "/api/accounts": {
-      "get": {
-        "operationId": "ListAccountIds",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiListAccountIdsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "ProcessorService"
-        ]
-      },
       "post": {
         "operationId": "CreateAccount",
         "responses": {
@@ -124,6 +104,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/apiDebitRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    },
+    "/api/reset": {
+      "post": {
+        "operationId": "Reset",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiResetResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiResetRequest"
             }
           }
         ],
@@ -309,23 +321,6 @@
         }
       }
     },
-    "apiListAccountIdsResponse": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "ids": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "apiListUserTransactionsResponse": {
       "type": "object",
       "properties": {
@@ -341,6 +336,20 @@
             "type": "object",
             "$ref": "#/definitions/ListUserTransactionsResponseData"
           }
+        }
+      }
+    },
+    "apiResetRequest": {
+      "type": "object"
+    },
+    "apiResetResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
         }
       }
     },

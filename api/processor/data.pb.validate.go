@@ -254,22 +254,22 @@ var _ interface {
 	ErrorName() string
 } = CreateAccountResponseValidationError{}
 
-// Validate checks the field values on ListAccountIdsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ListAccountIdsRequest) Validate() error {
+// Validate checks the field values on ResetRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ResetRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ListAccountIdsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListAccountIdsRequestMultiError, or nil if none found.
-func (m *ListAccountIdsRequest) ValidateAll() error {
+// ValidateAll checks the field values on ResetRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ResetRequestMultiError, or
+// nil if none found.
+func (m *ResetRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ListAccountIdsRequest) validate(all bool) error {
+func (m *ResetRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -277,19 +277,18 @@ func (m *ListAccountIdsRequest) validate(all bool) error {
 	var errors []error
 
 	if len(errors) > 0 {
-		return ListAccountIdsRequestMultiError(errors)
+		return ResetRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// ListAccountIdsRequestMultiError is an error wrapping multiple validation
-// errors returned by ListAccountIdsRequest.ValidateAll() if the designated
-// constraints aren't met.
-type ListAccountIdsRequestMultiError []error
+// ResetRequestMultiError is an error wrapping multiple validation errors
+// returned by ResetRequest.ValidateAll() if the designated constraints aren't met.
+type ResetRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ListAccountIdsRequestMultiError) Error() string {
+func (m ResetRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -298,11 +297,11 @@ func (m ListAccountIdsRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ListAccountIdsRequestMultiError) AllErrors() []error { return m }
+func (m ResetRequestMultiError) AllErrors() []error { return m }
 
-// ListAccountIdsRequestValidationError is the validation error returned by
-// ListAccountIdsRequest.Validate if the designated constraints aren't met.
-type ListAccountIdsRequestValidationError struct {
+// ResetRequestValidationError is the validation error returned by
+// ResetRequest.Validate if the designated constraints aren't met.
+type ResetRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -310,24 +309,22 @@ type ListAccountIdsRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListAccountIdsRequestValidationError) Field() string { return e.field }
+func (e ResetRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListAccountIdsRequestValidationError) Reason() string { return e.reason }
+func (e ResetRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListAccountIdsRequestValidationError) Cause() error { return e.cause }
+func (e ResetRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListAccountIdsRequestValidationError) Key() bool { return e.key }
+func (e ResetRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListAccountIdsRequestValidationError) ErrorName() string {
-	return "ListAccountIdsRequestValidationError"
-}
+func (e ResetRequestValidationError) ErrorName() string { return "ResetRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ListAccountIdsRequestValidationError) Error() string {
+func (e ResetRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -339,14 +336,14 @@ func (e ListAccountIdsRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListAccountIdsRequest.%s: %s%s",
+		"invalid %sResetRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListAccountIdsRequestValidationError{}
+var _ error = ResetRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -354,24 +351,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListAccountIdsRequestValidationError{}
+} = ResetRequestValidationError{}
 
-// Validate checks the field values on ListAccountIdsResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ListAccountIdsResponse) Validate() error {
+// Validate checks the field values on ResetResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ResetResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ListAccountIdsResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListAccountIdsResponseMultiError, or nil if none found.
-func (m *ListAccountIdsResponse) ValidateAll() error {
+// ValidateAll checks the field values on ResetResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ResetResponseMultiError, or
+// nil if none found.
+func (m *ResetResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ListAccountIdsResponse) validate(all bool) error {
+func (m *ResetResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -383,19 +380,19 @@ func (m *ListAccountIdsResponse) validate(all bool) error {
 	// no validation rules for Message
 
 	if len(errors) > 0 {
-		return ListAccountIdsResponseMultiError(errors)
+		return ResetResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// ListAccountIdsResponseMultiError is an error wrapping multiple validation
-// errors returned by ListAccountIdsResponse.ValidateAll() if the designated
-// constraints aren't met.
-type ListAccountIdsResponseMultiError []error
+// ResetResponseMultiError is an error wrapping multiple validation errors
+// returned by ResetResponse.ValidateAll() if the designated constraints
+// aren't met.
+type ResetResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ListAccountIdsResponseMultiError) Error() string {
+func (m ResetResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -404,11 +401,11 @@ func (m ListAccountIdsResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ListAccountIdsResponseMultiError) AllErrors() []error { return m }
+func (m ResetResponseMultiError) AllErrors() []error { return m }
 
-// ListAccountIdsResponseValidationError is the validation error returned by
-// ListAccountIdsResponse.Validate if the designated constraints aren't met.
-type ListAccountIdsResponseValidationError struct {
+// ResetResponseValidationError is the validation error returned by
+// ResetResponse.Validate if the designated constraints aren't met.
+type ResetResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -416,24 +413,22 @@ type ListAccountIdsResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListAccountIdsResponseValidationError) Field() string { return e.field }
+func (e ResetResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListAccountIdsResponseValidationError) Reason() string { return e.reason }
+func (e ResetResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListAccountIdsResponseValidationError) Cause() error { return e.cause }
+func (e ResetResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListAccountIdsResponseValidationError) Key() bool { return e.key }
+func (e ResetResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListAccountIdsResponseValidationError) ErrorName() string {
-	return "ListAccountIdsResponseValidationError"
-}
+func (e ResetResponseValidationError) ErrorName() string { return "ResetResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ListAccountIdsResponseValidationError) Error() string {
+func (e ResetResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -445,14 +440,14 @@ func (e ListAccountIdsResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListAccountIdsResponse.%s: %s%s",
+		"invalid %sResetResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListAccountIdsResponseValidationError{}
+var _ error = ResetResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -460,7 +455,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListAccountIdsResponseValidationError{}
+} = ResetResponseValidationError{}
 
 // Validate checks the field values on CreditRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

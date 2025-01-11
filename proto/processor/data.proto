@@ -10,11 +10,10 @@ message CreateAccountResponse {
   string message = 2;
 }
 
-message ListAccountIdsRequest {}
-message ListAccountIdsResponse {
+message ResetRequest {}
+message ResetResponse {
   bool success = 1;
   string message = 2;
-  repeated string ids = 3;
 }
 
 message CreditRequest {

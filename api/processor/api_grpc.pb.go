@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ProcessorService_CreateAccount_FullMethodName        = "/backend.processor.api.ProcessorService/CreateAccount"
-	ProcessorService_ListAccountIds_FullMethodName       = "/backend.processor.api.ProcessorService/ListAccountIds"
+	ProcessorService_Reset_FullMethodName                = "/backend.processor.api.ProcessorService/Reset"
 	ProcessorService_Credit_FullMethodName               = "/backend.processor.api.ProcessorService/Credit"
 	ProcessorService_Debit_FullMethodName                = "/backend.processor.api.ProcessorService/Debit"
 	ProcessorService_GetUserBalance_FullMethodName       = "/backend.processor.api.ProcessorService/GetUserBalance"
@@ -32,7 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProcessorServiceClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
-	ListAccountIds(ctx context.Context, in *ListAccountIdsRequest, opts ...grpc.CallOption) (*ListAccountIdsResponse, error)
+	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*ResetResponse, error)
 	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
 	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
@@ -56,9 +56,9 @@ func (c *processorServiceClient) CreateAccount(ctx context.Context, in *CreateAc
 	return out, nil
 }
 
-func (c *processorServiceClient) ListAccountIds(ctx context.Context, in *ListAccountIdsRequest, opts ...grpc.CallOption) (*ListAccountIdsResponse, error) {
-	out := new(ListAccountIdsResponse)
-	err := c.cc.Invoke(ctx, ProcessorService_ListAccountIds_FullMethodName, in, out, opts...)
+func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*ResetResponse, error) {
+	out := new(ResetResponse)
+	err := c.cc.Invoke(ctx, ProcessorService_Reset_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *L
 // for forward compatibility
 type ProcessorServiceServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
-	ListAccountIds(context.Context, *ListAccountIdsRequest) (*ListAccountIdsResponse, error)
+	Reset(context.Context, *ResetRequest) (*ResetResponse, error)
 	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
 	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
@@ -121,8 +121,8 @@ type UnimplementedProcessorServiceServer struct {
 func (UnimplementedProcessorServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
-func (UnimplementedProcessorServiceServer) ListAccountIds(context.Context, *ListAccountIdsRequest) (*ListAccountIdsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAccountIds not implemented")
+func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest) (*ResetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Reset not implemented")
 }
 func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*CreditResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Credit not implemented")
@@ -167,20 +167,20 @@ func _ProcessorService_CreateAccount_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProcessorService_ListAccountIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAccountIdsRequest)
+func _ProcessorService_Reset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProcessorServiceServer).ListAccountIds(ctx, in)
+		return srv.(ProcessorServiceServer).Reset(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProcessorService_ListAccountIds_FullMethodName,
+		FullMethod: ProcessorService_Reset_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcessorServiceServer).ListAccountIds(ctx, req.(*ListAccountIdsRequest))
+		return srv.(ProcessorServiceServer).Reset(ctx, req.(*ResetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -269,8 +269,8 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProcessorService_CreateAccount_Handler,
 		},
 		{
-			MethodName: "ListAccountIds",
-			Handler:    _ProcessorService_ListAccountIds_Handler,
+			MethodName: "Reset",
+			Handler:    _ProcessorService_Reset_Handler,
 		},
 		{
 			MethodName: "Credit",
