@@ -20,25 +20,25 @@ message ListAccountIdsResponse {
 message CreditRequest {
   string uuid = 1 [(validate.rules).string = {min_len : 1}];
   string transaction_id = 2 [(validate.rules).string = {min_len : 1}];
-  double amount = 3 [(validate.rules).double = {gt : 0}];
+  int64 amount = 3 [(validate.rules).int64 = {gt : 0}];
   string action = 4 [(validate.rules).string = {min_len : 1}];
 }
 message CreditResponse {
   bool success = 1;
   string message = 2;
-  double balance = 3;
+  int64 balance = 3;
 }
 
 message DebitRequest {
   string uuid = 1 [(validate.rules).string = {min_len : 1}];
   string transaction_id = 2 [(validate.rules).string = {min_len : 1}];
-  double amount = 3 [(validate.rules).double = {gt : 0}];
+  int64 amount = 3 [(validate.rules).int64 = {gt : 0}];
   string action = 4 [(validate.rules).string = {min_len : 1}];
 }
 message DebitResponse {
   bool success = 1;
   string message = 2;
-  double balance = 3;
+  int64 balance = 3;
 }
 
 message GetUserBalanceRequest {
@@ -47,7 +47,7 @@ message GetUserBalanceRequest {
 message GetUserBalanceResponse {
   bool success = 1;
   string message = 2;
-  double balance = 3;
+  int64 balance = 3;
 }
 
 message ListUserTransactionsRequest {
@@ -56,7 +56,7 @@ message ListUserTransactionsRequest {
 message ListUserTransactionsResponse {
   message Data {
     string transaction_id = 1;
-    double amount = 2;
+    int64 amount = 2;
     string action = 3;
   }
   bool success = 1;

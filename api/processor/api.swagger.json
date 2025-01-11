@@ -201,8 +201,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         },
         "action": {
           "type": "string"
@@ -238,8 +238,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         },
         "action": {
           "type": "string"
@@ -256,8 +256,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -271,8 +271,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         },
         "action": {
           "type": "string"
@@ -289,8 +289,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -304,8 +304,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "number",
-          "format": "double"
+          "type": "string",
+          "format": "int64"
         }
       }
     },
