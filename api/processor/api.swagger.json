@@ -16,14 +16,34 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/transactions": {
-      "post": {
-        "operationId": "CreateTransaction",
+    "/api/accounts": {
+      "get": {
+        "operationId": "ListAccountIds",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiCreateTransactionResponse"
+              "$ref": "#/definitions/apiListAccountIdsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "ProcessorService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateAccountResponse"
             }
           },
           "default": {
@@ -39,7 +59,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/apiCreateTransactionRequest"
+              "$ref": "#/definitions/apiCreateAccountRequest"
             }
           }
         ],
@@ -48,7 +68,71 @@
         ]
       }
     },
-    "/api/v1/users/{user_id}/balance": {
+    "/api/credit": {
+      "post": {
+        "operationId": "Credit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreditResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreditRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    },
+    "/api/debit": {
+      "post": {
+        "operationId": "Debit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiDebitResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiDebitRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProcessorService"
+        ]
+      }
+    },
+    "/api/users/{uuid}/balance": {
       "get": {
         "operationId": "GetUserBalance",
         "responses": {
@@ -67,11 +151,10 @@
         },
         "parameters": [
           {
-            "name": "user_id",
+            "name": "uuid",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -79,7 +162,7 @@
         ]
       }
     },
-    "/api/v1/users/{user_id}/transactions": {
+    "/api/users/{uuid}/transactions": {
       "get": {
         "operationId": "ListUserTransactions",
         "responses": {
@@ -98,11 +181,10 @@
         },
         "parameters": [
           {
-            "name": "user_id",
+            "name": "uuid",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -115,39 +197,27 @@
     "ListUserTransactionsResponseData": {
       "type": "object",
       "properties": {
-        "id": {
+        "transaction_id": {
           "type": "string"
         },
-        "user_id": {
-          "type": "string",
-          "format": "int64"
-        },
         "amount": {
           "type": "number",
           "format": "double"
         },
-        "type": {
-          "$ref": "#/definitions/apiTransactionType"
+        "action": {
+          "type": "string"
         }
       }
     },
-    "apiCreateTransactionRequest": {
+    "apiCreateAccountRequest": {
       "type": "object",
       "properties": {
-        "user_id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "amount": {
-          "type": "number",
-          "format": "double"
-        },
-        "type": {
-          "$ref": "#/definitions/apiTransactionType"
+        "uuid": {
+          "type": "string"
         }
       }
     },
-    "apiCreateTransactionResponse": {
+    "apiCreateAccountResponse": {
       "type": "object",
       "properties": {
         "success": {
@@ -155,6 +225,72 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "apiCreditRequest": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "transaction_id": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "action": {
+          "type": "string"
+        }
+      }
+    },
+    "apiCreditResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "apiDebitRequest": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "transaction_id": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "action": {
+          "type": "string"
+        }
+      }
+    },
+    "apiDebitResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
@@ -170,6 +306,23 @@
         "balance": {
           "type": "number",
           "format": "double"
+        }
+      }
+    },
+    "apiListAccountIdsResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -190,14 +343,6 @@
           }
         }
       }
-    },
-    "apiTransactionType": {
-      "type": "string",
-      "enum": [
-        "Deposit",
-        "Withdraw"
-      ],
-      "default": "Deposit"
     },
     "protobufAny": {
       "type": "object",

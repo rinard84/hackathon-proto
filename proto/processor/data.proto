@@ -2,23 +2,47 @@ syntax = "proto3";
 package backend.processor.api;
 import "validate/validate.proto";
 
-enum TransactionType {
-  Deposit = 0;
-  Withdraw = 1;
+message CreateAccountRequest {
+  string uuid = 1 [(validate.rules).string = {min_len : 1}];
 }
-
-message CreateTransactionRequest {
-  int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
-  double amount = 2 [(validate.rules).double = {gt : 0}];
-  TransactionType type = 3;
-}
-message CreateTransactionResponse {
+message CreateAccountResponse {
   bool success = 1;
   string message = 2;
 }
 
+message ListAccountIdsRequest {}
+message ListAccountIdsResponse {
+  bool success = 1;
+  string message = 2;
+  repeated string ids = 3;
+}
+
+message CreditRequest {
+  string uuid = 1 [(validate.rules).string = {min_len : 1}];
+  string transaction_id = 2 [(validate.rules).string = {min_len : 1}];
+  double amount = 3 [(validate.rules).double = {gt : 0}];
+  string action = 4 [(validate.rules).string = {min_len : 1}];
+}
+message CreditResponse {
+  bool success = 1;
+  string message = 2;
+  double balance = 3;
+}
+
+message DebitRequest {
+  string uuid = 1 [(validate.rules).string = {min_len : 1}];
+  string transaction_id = 2 [(validate.rules).string = {min_len : 1}];
+  double amount = 3 [(validate.rules).double = {gt : 0}];
+  string action = 4 [(validate.rules).string = {min_len : 1}];
+}
+message DebitResponse {
+  bool success = 1;
+  string message = 2;
+  double balance = 3;
+}
+
 message GetUserBalanceRequest {
-  int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
+  string uuid = 1 [(validate.rules).string = {min_len : 1}];
 }
 message GetUserBalanceResponse {
   bool success = 1;
@@ -27,14 +51,13 @@ message GetUserBalanceResponse {
 }
 
 message ListUserTransactionsRequest {
-  int64 user_id = 1 [(validate.rules).int64 = {gt : 0}];
+  string uuid = 1 [(validate.rules).string = {min_len : 1}];
 }
 message ListUserTransactionsResponse {
   message Data {
-    string id = 1;
-    int64 user_id = 2;
-    double amount = 3;
-    TransactionType type = 4;
+    string transaction_id = 1;
+    double amount = 2;
+    string action = 3;
   }
   bool success = 1;
   string message = 2;

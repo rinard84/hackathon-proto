@@ -35,66 +35,53 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on CreateTransactionRequest with the rules
+// Validate checks the field values on CreateAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *CreateTransactionRequest) Validate() error {
+func (m *CreateAccountRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on CreateTransactionRequest with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on CreateAccountRequest with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// CreateTransactionRequestMultiError, or nil if none found.
-func (m *CreateTransactionRequest) ValidateAll() error {
+// CreateAccountRequestMultiError, or nil if none found.
+func (m *CreateAccountRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *CreateTransactionRequest) validate(all bool) error {
+func (m *CreateAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	if m.GetUserId() <= 0 {
-		err := CreateTransactionRequestValidationError{
-			field:  "UserId",
-			reason: "value must be greater than 0",
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
+		err := CreateAccountRequestValidationError{
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
 	}
-
-	if m.GetAmount() <= 0 {
-		err := CreateTransactionRequestValidationError{
-			field:  "Amount",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	// no validation rules for Type
 
 	if len(errors) > 0 {
-		return CreateTransactionRequestMultiError(errors)
+		return CreateAccountRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// CreateTransactionRequestMultiError is an error wrapping multiple validation
-// errors returned by CreateTransactionRequest.ValidateAll() if the designated
+// CreateAccountRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateAccountRequest.ValidateAll() if the designated
 // constraints aren't met.
-type CreateTransactionRequestMultiError []error
+type CreateAccountRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m CreateTransactionRequestMultiError) Error() string {
+func (m CreateAccountRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -103,11 +90,11 @@ func (m CreateTransactionRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m CreateTransactionRequestMultiError) AllErrors() []error { return m }
+func (m CreateAccountRequestMultiError) AllErrors() []error { return m }
 
-// CreateTransactionRequestValidationError is the validation error returned by
-// CreateTransactionRequest.Validate if the designated constraints aren't met.
-type CreateTransactionRequestValidationError struct {
+// CreateAccountRequestValidationError is the validation error returned by
+// CreateAccountRequest.Validate if the designated constraints aren't met.
+type CreateAccountRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -115,24 +102,24 @@ type CreateTransactionRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e CreateTransactionRequestValidationError) Field() string { return e.field }
+func (e CreateAccountRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e CreateTransactionRequestValidationError) Reason() string { return e.reason }
+func (e CreateAccountRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e CreateTransactionRequestValidationError) Cause() error { return e.cause }
+func (e CreateAccountRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e CreateTransactionRequestValidationError) Key() bool { return e.key }
+func (e CreateAccountRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e CreateTransactionRequestValidationError) ErrorName() string {
-	return "CreateTransactionRequestValidationError"
+func (e CreateAccountRequestValidationError) ErrorName() string {
+	return "CreateAccountRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e CreateTransactionRequestValidationError) Error() string {
+func (e CreateAccountRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -144,14 +131,14 @@ func (e CreateTransactionRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sCreateTransactionRequest.%s: %s%s",
+		"invalid %sCreateAccountRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = CreateTransactionRequestValidationError{}
+var _ error = CreateAccountRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -159,24 +146,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = CreateTransactionRequestValidationError{}
+} = CreateAccountRequestValidationError{}
 
-// Validate checks the field values on CreateTransactionResponse with the rules
+// Validate checks the field values on CreateAccountResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *CreateTransactionResponse) Validate() error {
+func (m *CreateAccountResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on CreateTransactionResponse with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on CreateAccountResponse with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// CreateTransactionResponseMultiError, or nil if none found.
-func (m *CreateTransactionResponse) ValidateAll() error {
+// CreateAccountResponseMultiError, or nil if none found.
+func (m *CreateAccountResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *CreateTransactionResponse) validate(all bool) error {
+func (m *CreateAccountResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -188,19 +175,19 @@ func (m *CreateTransactionResponse) validate(all bool) error {
 	// no validation rules for Message
 
 	if len(errors) > 0 {
-		return CreateTransactionResponseMultiError(errors)
+		return CreateAccountResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// CreateTransactionResponseMultiError is an error wrapping multiple validation
-// errors returned by CreateTransactionResponse.ValidateAll() if the
-// designated constraints aren't met.
-type CreateTransactionResponseMultiError []error
+// CreateAccountResponseMultiError is an error wrapping multiple validation
+// errors returned by CreateAccountResponse.ValidateAll() if the designated
+// constraints aren't met.
+type CreateAccountResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m CreateTransactionResponseMultiError) Error() string {
+func (m CreateAccountResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -209,11 +196,11 @@ func (m CreateTransactionResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m CreateTransactionResponseMultiError) AllErrors() []error { return m }
+func (m CreateAccountResponseMultiError) AllErrors() []error { return m }
 
-// CreateTransactionResponseValidationError is the validation error returned by
-// CreateTransactionResponse.Validate if the designated constraints aren't met.
-type CreateTransactionResponseValidationError struct {
+// CreateAccountResponseValidationError is the validation error returned by
+// CreateAccountResponse.Validate if the designated constraints aren't met.
+type CreateAccountResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -221,24 +208,24 @@ type CreateTransactionResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e CreateTransactionResponseValidationError) Field() string { return e.field }
+func (e CreateAccountResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e CreateTransactionResponseValidationError) Reason() string { return e.reason }
+func (e CreateAccountResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e CreateTransactionResponseValidationError) Cause() error { return e.cause }
+func (e CreateAccountResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e CreateTransactionResponseValidationError) Key() bool { return e.key }
+func (e CreateAccountResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e CreateTransactionResponseValidationError) ErrorName() string {
-	return "CreateTransactionResponseValidationError"
+func (e CreateAccountResponseValidationError) ErrorName() string {
+	return "CreateAccountResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e CreateTransactionResponseValidationError) Error() string {
+func (e CreateAccountResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -250,14 +237,14 @@ func (e CreateTransactionResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sCreateTransactionResponse.%s: %s%s",
+		"invalid %sCreateAccountResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = CreateTransactionResponseValidationError{}
+var _ error = CreateAccountResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -265,7 +252,714 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = CreateTransactionResponseValidationError{}
+} = CreateAccountResponseValidationError{}
+
+// Validate checks the field values on ListAccountIdsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAccountIdsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAccountIdsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAccountIdsRequestMultiError, or nil if none found.
+func (m *ListAccountIdsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAccountIdsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListAccountIdsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAccountIdsRequestMultiError is an error wrapping multiple validation
+// errors returned by ListAccountIdsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListAccountIdsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAccountIdsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAccountIdsRequestMultiError) AllErrors() []error { return m }
+
+// ListAccountIdsRequestValidationError is the validation error returned by
+// ListAccountIdsRequest.Validate if the designated constraints aren't met.
+type ListAccountIdsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAccountIdsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAccountIdsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAccountIdsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAccountIdsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAccountIdsRequestValidationError) ErrorName() string {
+	return "ListAccountIdsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAccountIdsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAccountIdsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAccountIdsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAccountIdsRequestValidationError{}
+
+// Validate checks the field values on ListAccountIdsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListAccountIdsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListAccountIdsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListAccountIdsResponseMultiError, or nil if none found.
+func (m *ListAccountIdsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListAccountIdsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Success
+
+	// no validation rules for Message
+
+	if len(errors) > 0 {
+		return ListAccountIdsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListAccountIdsResponseMultiError is an error wrapping multiple validation
+// errors returned by ListAccountIdsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ListAccountIdsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListAccountIdsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListAccountIdsResponseMultiError) AllErrors() []error { return m }
+
+// ListAccountIdsResponseValidationError is the validation error returned by
+// ListAccountIdsResponse.Validate if the designated constraints aren't met.
+type ListAccountIdsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListAccountIdsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListAccountIdsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListAccountIdsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListAccountIdsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListAccountIdsResponseValidationError) ErrorName() string {
+	return "ListAccountIdsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListAccountIdsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListAccountIdsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListAccountIdsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListAccountIdsResponseValidationError{}
+
+// Validate checks the field values on CreditRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *CreditRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreditRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in CreditRequestMultiError, or
+// nil if none found.
+func (m *CreditRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreditRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
+		err := CreditRequestValidationError{
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetTransactionId()) < 1 {
+		err := CreditRequestValidationError{
+			field:  "TransactionId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetAmount() <= 0 {
+		err := CreditRequestValidationError{
+			field:  "Amount",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAction()) < 1 {
+		err := CreditRequestValidationError{
+			field:  "Action",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return CreditRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreditRequestMultiError is an error wrapping multiple validation errors
+// returned by CreditRequest.ValidateAll() if the designated constraints
+// aren't met.
+type CreditRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreditRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreditRequestMultiError) AllErrors() []error { return m }
+
+// CreditRequestValidationError is the validation error returned by
+// CreditRequest.Validate if the designated constraints aren't met.
+type CreditRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreditRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreditRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreditRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreditRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreditRequestValidationError) ErrorName() string { return "CreditRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CreditRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreditRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreditRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreditRequestValidationError{}
+
+// Validate checks the field values on CreditResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *CreditResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreditResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in CreditResponseMultiError,
+// or nil if none found.
+func (m *CreditResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreditResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Success
+
+	// no validation rules for Message
+
+	// no validation rules for Balance
+
+	if len(errors) > 0 {
+		return CreditResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreditResponseMultiError is an error wrapping multiple validation errors
+// returned by CreditResponse.ValidateAll() if the designated constraints
+// aren't met.
+type CreditResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreditResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreditResponseMultiError) AllErrors() []error { return m }
+
+// CreditResponseValidationError is the validation error returned by
+// CreditResponse.Validate if the designated constraints aren't met.
+type CreditResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreditResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreditResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreditResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreditResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreditResponseValidationError) ErrorName() string { return "CreditResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CreditResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreditResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreditResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreditResponseValidationError{}
+
+// Validate checks the field values on DebitRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DebitRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DebitRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DebitRequestMultiError, or
+// nil if none found.
+func (m *DebitRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DebitRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
+		err := DebitRequestValidationError{
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetTransactionId()) < 1 {
+		err := DebitRequestValidationError{
+			field:  "TransactionId",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetAmount() <= 0 {
+		err := DebitRequestValidationError{
+			field:  "Amount",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetAction()) < 1 {
+		err := DebitRequestValidationError{
+			field:  "Action",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return DebitRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DebitRequestMultiError is an error wrapping multiple validation errors
+// returned by DebitRequest.ValidateAll() if the designated constraints aren't met.
+type DebitRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DebitRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DebitRequestMultiError) AllErrors() []error { return m }
+
+// DebitRequestValidationError is the validation error returned by
+// DebitRequest.Validate if the designated constraints aren't met.
+type DebitRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DebitRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DebitRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DebitRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DebitRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DebitRequestValidationError) ErrorName() string { return "DebitRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DebitRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDebitRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DebitRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DebitRequestValidationError{}
+
+// Validate checks the field values on DebitResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DebitResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DebitResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DebitResponseMultiError, or
+// nil if none found.
+func (m *DebitResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DebitResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Success
+
+	// no validation rules for Message
+
+	// no validation rules for Balance
+
+	if len(errors) > 0 {
+		return DebitResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DebitResponseMultiError is an error wrapping multiple validation errors
+// returned by DebitResponse.ValidateAll() if the designated constraints
+// aren't met.
+type DebitResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DebitResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DebitResponseMultiError) AllErrors() []error { return m }
+
+// DebitResponseValidationError is the validation error returned by
+// DebitResponse.Validate if the designated constraints aren't met.
+type DebitResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DebitResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DebitResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DebitResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DebitResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DebitResponseValidationError) ErrorName() string { return "DebitResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DebitResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDebitResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DebitResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DebitResponseValidationError{}
 
 // Validate checks the field values on GetUserBalanceRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -289,10 +983,10 @@ func (m *GetUserBalanceRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetUserId() <= 0 {
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
 		err := GetUserBalanceRequestValidationError{
-			field:  "UserId",
-			reason: "value must be greater than 0",
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
@@ -510,10 +1204,10 @@ func (m *ListUserTransactionsRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetUserId() <= 0 {
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
 		err := ListUserTransactionsRequestValidationError{
-			field:  "UserId",
-			reason: "value must be greater than 0",
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
@@ -766,13 +1460,11 @@ func (m *ListUserTransactionsResponse_Data) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
-	// no validation rules for UserId
+	// no validation rules for TransactionId
 
 	// no validation rules for Amount
 
-	// no validation rules for Type
+	// no validation rules for Action
 
 	if len(errors) > 0 {
 		return ListUserTransactionsResponse_DataMultiError(errors)

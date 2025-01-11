@@ -4,20 +4,37 @@ import "google/api/annotations.proto";
 import "processor/data.proto";
 
 service ProcessorService {
-  rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse) {
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
     option (google.api.http) = {
-      post : "/api/v1/transactions",
+      post : "/api/accounts",
+      body : "*",
+    };
+  }
+  rpc ListAccountIds(ListAccountIdsRequest) returns (ListAccountIdsResponse) {
+    option (google.api.http) = {
+      get : "/api/accounts",
+    };
+  }
+  rpc Credit(CreditRequest) returns (CreditResponse) {
+    option (google.api.http) = {
+      post : "/api/credit",
+      body : "*",
+    };
+  }
+  rpc Debit(DebitRequest) returns (DebitResponse) {
+    option (google.api.http) = {
+      post : "/api/debit",
       body : "*",
     };
   }
   rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
     option (google.api.http) = {
-      get : "/api/v1/users/{user_id}/balance",
+      get : "/api/users/{uuid}/balance",
     };
   }
   rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
     option (google.api.http) = {
-      get : "/api/v1/users/{user_id}/transactions",
+      get : "/api/users/{uuid}/transactions",
     };
   }
 }
