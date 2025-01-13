@@ -25,7 +25,7 @@ message CreditRequest {
 message CreditResponse {
   bool success = 1;
   string message = 2;
-  int64 balance = 3;
+  double balance = 3;
 }
 
 message DebitRequest {
@@ -37,7 +37,7 @@ message DebitRequest {
 message DebitResponse {
   bool success = 1;
   string message = 2;
-  int64 balance = 3;
+  double balance = 3;
 }
 
 message GetUserBalanceRequest {
@@ -46,7 +46,7 @@ message GetUserBalanceRequest {
 message GetUserBalanceResponse {
   bool success = 1;
   string message = 2;
-  int64 balance = 3;
+  double balance = 3;
 }
 
 message ListUserTransactionsRequest {

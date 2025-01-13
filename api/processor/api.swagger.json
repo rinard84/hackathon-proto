@@ -268,8 +268,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         }
       }
     },
@@ -301,8 +301,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         }
       }
     },
@@ -316,8 +316,8 @@
           "type": "string"
         },
         "balance": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         }
       }
     },
