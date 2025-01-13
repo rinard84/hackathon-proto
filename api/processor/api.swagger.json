@@ -213,8 +213,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         },
         "action": {
           "type": "string"
@@ -250,8 +250,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         },
         "action": {
           "type": "string"
@@ -283,8 +283,8 @@
           "type": "string"
         },
         "amount": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "double"
         },
         "action": {
           "type": "string"
