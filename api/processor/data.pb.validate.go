@@ -512,17 +512,6 @@ func (m *CreditRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetAction()) < 1 {
-		err := CreditRequestValidationError{
-			field:  "Action",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if len(errors) > 0 {
 		return CreditRequestMultiError(errors)
 	}
@@ -626,8 +615,6 @@ func (m *CreditResponse) validate(all bool) error {
 	// no validation rules for Success
 
 	// no validation rules for Message
-
-	// no validation rules for Balance
 
 	if len(errors) > 0 {
 		return CreditResponseMultiError(errors)
@@ -762,17 +749,6 @@ func (m *DebitRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetAction()) < 1 {
-		err := DebitRequestValidationError{
-			field:  "Action",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if len(errors) > 0 {
 		return DebitRequestMultiError(errors)
 	}
@@ -875,8 +851,6 @@ func (m *DebitResponse) validate(all bool) error {
 	// no validation rules for Success
 
 	// no validation rules for Message
-
-	// no validation rules for Balance
 
 	if len(errors) > 0 {
 		return DebitResponseMultiError(errors)

@@ -252,9 +252,6 @@
         "amount": {
           "type": "number",
           "format": "double"
-        },
-        "action": {
-          "type": "string"
         }
       }
     },
@@ -266,10 +263,6 @@
         },
         "message": {
           "type": "string"
-        },
-        "balance": {
-          "type": "number",
-          "format": "double"
         }
       }
     },
@@ -285,9 +278,6 @@
         "amount": {
           "type": "number",
           "format": "double"
-        },
-        "action": {
-          "type": "string"
         }
       }
     },
@@ -299,10 +289,6 @@
         },
         "message": {
           "type": "string"
-        },
-        "balance": {
-          "type": "number",
-          "format": "double"
         }
       }
     },
