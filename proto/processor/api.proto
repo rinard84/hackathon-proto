@@ -30,12 +30,12 @@ service ProcessorService {
   }
   rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
     option (google.api.http) = {
-      get : "/api/users/{uuid}/balance",
+      get : "/api/users/{uid}/balance",
     };
   }
   rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
     option (google.api.http) = {
-      get : "/api/users/{uuid}/transactions",
+      get : "/api/users/{uid}/transactions",
     };
   }
 }
