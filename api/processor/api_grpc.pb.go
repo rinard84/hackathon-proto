@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -31,10 +32,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProcessorServiceClient interface {
-	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
-	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*ResetResponse, error)
-	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
-	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
 }
@@ -47,8 +48,8 @@ func NewProcessorServiceClient(cc grpc.ClientConnInterface) ProcessorServiceClie
 	return &processorServiceClient{cc}
 }
 
-func (c *processorServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error) {
-	out := new(CreateAccountResponse)
+func (c *processorServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, ProcessorService_CreateAccount_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +57,8 @@ func (c *processorServiceClient) CreateAccount(ctx context.Context, in *CreateAc
 	return out, nil
 }
 
-func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*ResetResponse, error) {
-	out := new(ResetResponse)
+func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, ProcessorService_Reset_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -65,8 +66,8 @@ func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, op
 	return out, nil
 }
 
-func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error) {
-	out := new(CreditResponse)
+func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, ProcessorService_Credit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -74,8 +75,8 @@ func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, 
 	return out, nil
 }
 
-func (c *processorServiceClient) Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error) {
-	out := new(DebitResponse)
+func (c *processorServiceClient) Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, ProcessorService_Debit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,10 +106,10 @@ func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *L
 // All implementations must embed UnimplementedProcessorServiceServer
 // for forward compatibility
 type ProcessorServiceServer interface {
-	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
-	Reset(context.Context, *ResetRequest) (*ResetResponse, error)
-	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
-	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
+	CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error)
+	Reset(context.Context, *ResetRequest) (*emptypb.Empty, error)
+	Credit(context.Context, *CreditRequest) (*emptypb.Empty, error)
+	Debit(context.Context, *DebitRequest) (*emptypb.Empty, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
 	mustEmbedUnimplementedProcessorServiceServer()
@@ -118,16 +119,16 @@ type ProcessorServiceServer interface {
 type UnimplementedProcessorServiceServer struct {
 }
 
-func (UnimplementedProcessorServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
+func (UnimplementedProcessorServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
-func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest) (*ResetResponse, error) {
+func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reset not implemented")
 }
-func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*CreditResponse, error) {
+func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Credit not implemented")
 }
-func (UnimplementedProcessorServiceServer) Debit(context.Context, *DebitRequest) (*DebitResponse, error) {
+func (UnimplementedProcessorServiceServer) Debit(context.Context, *DebitRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Debit not implemented")
 }
 func (UnimplementedProcessorServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {

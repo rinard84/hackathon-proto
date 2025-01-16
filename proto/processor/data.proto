@@ -5,31 +5,19 @@ import "validate/validate.proto";
 message CreateAccountRequest {
   string uid = 1 [(validate.rules).string = {min_len : 1}];
 }
-message CreateAccountResponse {
-  string msg = 1;
-}
 
 message ResetRequest {}
-message ResetResponse {
-  string msg = 1;
-}
 
 message CreditRequest {
   string id = 1 [(validate.rules).string = {min_len : 1}];
   string uid = 2 [(validate.rules).string = {min_len : 1}];
   int32 amount = 3 [(validate.rules).int32 = {gt : 0}];
 }
-message CreditResponse {
-  string msg = 1;
-}
 
 message DebitRequest {
   string id = 1 [(validate.rules).string = {min_len : 1}];
   string uid = 2 [(validate.rules).string = {min_len : 1}];
   int32 amount = 3 [(validate.rules).int32 = {gt : 0}];
-}
-message DebitResponse {
-  string msg = 1;
 }
 
 message GetUserBalanceRequest {
