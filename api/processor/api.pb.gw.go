@@ -178,14 +178,14 @@ func request_ProcessorService_GetUserBalance_0(ctx context.Context, marshaler ru
 		_   = err
 	)
 
-	val, ok = pathParams["uuid"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uuid")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uuid, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uuid", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
 
 	msg, err := client.GetUserBalance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -204,20 +204,24 @@ func local_request_ProcessorService_GetUserBalance_0(ctx context.Context, marsha
 		_   = err
 	)
 
-	val, ok = pathParams["uuid"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uuid")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uuid, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uuid", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
 
 	msg, err := server.GetUserBalance(ctx, &protoReq)
 	return msg, metadata, err
 
 }
+
+var (
+	filter_ProcessorService_ListUserTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{"uid": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+)
 
 func request_ProcessorService_ListUserTransactions_0(ctx context.Context, marshaler runtime.Marshaler, client ProcessorServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListUserTransactionsRequest
@@ -230,14 +234,21 @@ func request_ProcessorService_ListUserTransactions_0(ctx context.Context, marsha
 		_   = err
 	)
 
-	val, ok = pathParams["uuid"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uuid")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uuid, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uuid", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProcessorService_ListUserTransactions_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := client.ListUserTransactions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -256,14 +267,21 @@ func local_request_ProcessorService_ListUserTransactions_0(ctx context.Context, 
 		_   = err
 	)
 
-	val, ok = pathParams["uuid"]
+	val, ok = pathParams["uid"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uuid")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uuid, err = runtime.String(val)
+	protoReq.Uid, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uuid", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ProcessorService_ListUserTransactions_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := server.ListUserTransactions(ctx, &protoReq)
@@ -385,7 +403,7 @@ func RegisterProcessorServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/backend.processor.api.ProcessorService/GetUserBalance", runtime.WithHTTPPathPattern("/api/users/{uuid}/balance"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/backend.processor.api.ProcessorService/GetUserBalance", runtime.WithHTTPPathPattern("/api/users/{uid}/balance"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -410,7 +428,7 @@ func RegisterProcessorServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/backend.processor.api.ProcessorService/ListUserTransactions", runtime.WithHTTPPathPattern("/api/users/{uuid}/transactions"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/backend.processor.api.ProcessorService/ListUserTransactions", runtime.WithHTTPPathPattern("/api/users/{uid}/transactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -562,7 +580,7 @@ func RegisterProcessorServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.processor.api.ProcessorService/GetUserBalance", runtime.WithHTTPPathPattern("/api/users/{uuid}/balance"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.processor.api.ProcessorService/GetUserBalance", runtime.WithHTTPPathPattern("/api/users/{uid}/balance"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -584,7 +602,7 @@ func RegisterProcessorServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.processor.api.ProcessorService/ListUserTransactions", runtime.WithHTTPPathPattern("/api/users/{uuid}/transactions"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.processor.api.ProcessorService/ListUserTransactions", runtime.WithHTTPPathPattern("/api/users/{uid}/transactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -612,9 +630,9 @@ var (
 
 	pattern_ProcessorService_Debit_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "debit"}, ""))
 
-	pattern_ProcessorService_GetUserBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "users", "uuid", "balance"}, ""))
+	pattern_ProcessorService_GetUserBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "users", "uid", "balance"}, ""))
 
-	pattern_ProcessorService_ListUserTransactions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "users", "uuid", "transactions"}, ""))
+	pattern_ProcessorService_ListUserTransactions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "users", "uid", "transactions"}, ""))
 )
 
 var (

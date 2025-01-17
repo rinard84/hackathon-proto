@@ -2,27 +2,28 @@ syntax = "proto3";
 package backend.processor.api;
 import "google/api/annotations.proto";
 import "processor/data.proto";
+import "google/protobuf/empty.proto";
 
 service ProcessorService {
-  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
+  rpc CreateAccount(CreateAccountRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/accounts",
       body : "*",
     };
   }
-  rpc Reset(ResetRequest) returns (ResetResponse) {
+  rpc Reset(ResetRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/reset",
       body : "*",
     };
   }
-  rpc Credit(CreditRequest) returns (CreditResponse) {
+  rpc Credit(CreditRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/credit",
       body : "*",
     };
   }
-  rpc Debit(DebitRequest) returns (DebitResponse) {
+  rpc Debit(DebitRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/debit",
       body : "*",
@@ -30,12 +31,12 @@ service ProcessorService {
   }
   rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
     option (google.api.http) = {
-      get : "/api/users/{uuid}/balance",
+      get : "/api/users/{uid}/balance",
     };
   }
   rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
     option (google.api.http) = {
-      get : "/api/users/{uuid}/transactions",
+      get : "/api/users/{uid}/transactions",
     };
   }
 }
