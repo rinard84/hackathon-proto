@@ -23,7 +23,7 @@ service ProcessorService {
       body : "*",
     };
   }
-  rpc Debit(DebitRequest) returns (google.protobuf.Empty) {
+  rpc Debit(DebitRequest) returns (DebitResponse) {
     option (google.api.http) = {
       post : "/api/debit",
       body : "*",

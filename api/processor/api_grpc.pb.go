@@ -35,7 +35,7 @@ type ProcessorServiceClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
 }
@@ -75,8 +75,8 @@ func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, 
 	return out, nil
 }
 
-func (c *processorServiceClient) Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *processorServiceClient) Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error) {
+	out := new(DebitResponse)
 	err := c.cc.Invoke(ctx, ProcessorService_Debit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -109,7 +109,7 @@ type ProcessorServiceServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error)
 	Reset(context.Context, *ResetRequest) (*emptypb.Empty, error)
 	Credit(context.Context, *CreditRequest) (*emptypb.Empty, error)
-	Debit(context.Context, *DebitRequest) (*emptypb.Empty, error)
+	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
 	mustEmbedUnimplementedProcessorServiceServer()
@@ -128,7 +128,7 @@ func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest)
 func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Credit not implemented")
 }
-func (UnimplementedProcessorServiceServer) Debit(context.Context, *DebitRequest) (*emptypb.Empty, error) {
+func (UnimplementedProcessorServiceServer) Debit(context.Context, *DebitRequest) (*DebitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Debit not implemented")
 }
 func (UnimplementedProcessorServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {

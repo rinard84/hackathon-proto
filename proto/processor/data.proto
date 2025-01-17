@@ -19,6 +19,9 @@ message DebitRequest {
   string uid = 2 [(validate.rules).string = {min_len : 1}];
   int32 amount = 3 [(validate.rules).int32 = {gt : 0}];
 }
+message DebitResponse {
+  string msg = 1;
+}
 
 message GetUserBalanceRequest {
   string uid = 1 [(validate.rules).string = {min_len : 1}];
