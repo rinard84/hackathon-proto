@@ -26,6 +26,7 @@ const (
 	ProcessorService_Debit_FullMethodName                = "/backend.processor.api.ProcessorService/Debit"
 	ProcessorService_GetUserBalance_FullMethodName       = "/backend.processor.api.ProcessorService/GetUserBalance"
 	ProcessorService_ListUserTransactions_FullMethodName = "/backend.processor.api.ProcessorService/ListUserTransactions"
+	ProcessorService_StreamTransaction_FullMethodName    = "/backend.processor.api.ProcessorService/StreamTransaction"
 )
 
 // ProcessorServiceClient is the client API for ProcessorService service.
@@ -34,10 +35,11 @@ const (
 type ProcessorServiceClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
 	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
+	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error)
 }
 
 type processorServiceClient struct {
@@ -66,8 +68,8 @@ func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, op
 	return out, nil
 }
 
-func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *processorServiceClient) Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error) {
+	out := new(CreditResponse)
 	err := c.cc.Invoke(ctx, ProcessorService_Credit_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -102,16 +104,48 @@ func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *L
 	return out, nil
 }
 
+func (c *processorServiceClient) StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProcessorService_ServiceDesc.Streams[0], ProcessorService_StreamTransaction_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &processorServiceStreamTransactionClient{stream}
+	return x, nil
+}
+
+type ProcessorService_StreamTransactionClient interface {
+	Send(*StreamTransactionRequest) error
+	Recv() (*StreamTransactionResponse, error)
+	grpc.ClientStream
+}
+
+type processorServiceStreamTransactionClient struct {
+	grpc.ClientStream
+}
+
+func (x *processorServiceStreamTransactionClient) Send(m *StreamTransactionRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *processorServiceStreamTransactionClient) Recv() (*StreamTransactionResponse, error) {
+	m := new(StreamTransactionResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProcessorServiceServer is the server API for ProcessorService service.
 // All implementations must embed UnimplementedProcessorServiceServer
 // for forward compatibility
 type ProcessorServiceServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error)
 	Reset(context.Context, *ResetRequest) (*emptypb.Empty, error)
-	Credit(context.Context, *CreditRequest) (*emptypb.Empty, error)
+	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
 	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
+	StreamTransaction(ProcessorService_StreamTransactionServer) error
 	mustEmbedUnimplementedProcessorServiceServer()
 }
 
@@ -125,7 +159,7 @@ func (UnimplementedProcessorServiceServer) CreateAccount(context.Context, *Creat
 func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reset not implemented")
 }
-func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*emptypb.Empty, error) {
+func (UnimplementedProcessorServiceServer) Credit(context.Context, *CreditRequest) (*CreditResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Credit not implemented")
 }
 func (UnimplementedProcessorServiceServer) Debit(context.Context, *DebitRequest) (*DebitResponse, error) {
@@ -136,6 +170,9 @@ func (UnimplementedProcessorServiceServer) GetUserBalance(context.Context, *GetU
 }
 func (UnimplementedProcessorServiceServer) ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserTransactions not implemented")
+}
+func (UnimplementedProcessorServiceServer) StreamTransaction(ProcessorService_StreamTransactionServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamTransaction not implemented")
 }
 func (UnimplementedProcessorServiceServer) mustEmbedUnimplementedProcessorServiceServer() {}
 
@@ -258,6 +295,32 @@ func _ProcessorService_ListUserTransactions_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProcessorService_StreamTransaction_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ProcessorServiceServer).StreamTransaction(&processorServiceStreamTransactionServer{stream})
+}
+
+type ProcessorService_StreamTransactionServer interface {
+	Send(*StreamTransactionResponse) error
+	Recv() (*StreamTransactionRequest, error)
+	grpc.ServerStream
+}
+
+type processorServiceStreamTransactionServer struct {
+	grpc.ServerStream
+}
+
+func (x *processorServiceStreamTransactionServer) Send(m *StreamTransactionResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *processorServiceStreamTransactionServer) Recv() (*StreamTransactionRequest, error) {
+	m := new(StreamTransactionRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProcessorService_ServiceDesc is the grpc.ServiceDesc for ProcessorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -290,6 +353,13 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProcessorService_ListUserTransactions_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamTransaction",
+			Handler:       _ProcessorService_StreamTransaction_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "processor/api.proto",
 }

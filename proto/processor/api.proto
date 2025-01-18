@@ -17,7 +17,7 @@ service ProcessorService {
       body : "*",
     };
   }
-  rpc Credit(CreditRequest) returns (google.protobuf.Empty) {
+  rpc Credit(CreditRequest) returns (CreditResponse) {
     option (google.api.http) = {
       post : "/api/credit",
       body : "*",
@@ -37,6 +37,12 @@ service ProcessorService {
   rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
     option (google.api.http) = {
       get : "/api/users/{uid}/transactions",
+    };
+  }
+  rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {
+    option (google.api.http) = {
+      post : "/api/streams/transactions",
+      body : "*",
     };
   }
 }
