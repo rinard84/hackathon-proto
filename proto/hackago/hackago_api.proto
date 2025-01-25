@@ -1,0 +1,47 @@
+syntax = "proto3";
+package backend.hackago.api;
+import "google/api/annotations.proto";
+import "hackago/hackago_data.proto";
+
+
+service HackaGoService {
+  rpc Betting(BettingRequest) returns (BettingResponse) {
+    option (google.api.http) = {
+      post: "/api/betting",
+      body: "*"
+    };
+  }
+  rpc Credit(BettingRequest) returns (BettingResponse) {
+    option (google.api.http) = {
+      post: "/api/credit",
+      body: "*"
+    };
+  }
+  rpc Debit(BettingRequest) returns (BettingResponse) {
+    option (google.api.http) = {
+      post: "/api/debit",
+      body: "*"
+    };
+  }
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
+    option (google.api.http) = {
+      post: "/api/accounts",
+      body: "*"
+    };
+  }
+  rpc History(HistoryRequest) returns (HistoryResponse) {
+    option (google.api.http) = {
+      get: "/api/history"
+    };
+  }
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {
+    option (google.api.http) = {
+      get: "/api/balance"
+    };
+  }
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
+    option (google.api.http) = {
+      get: "/api/get-accounts"
+    };
+  }
+}

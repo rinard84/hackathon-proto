@@ -1,0 +1,51 @@
+syntax = "proto3";
+package backend.hackago.api;
+import "validate/validate.proto";
+import "google/protobuf/struct.proto";
+
+message BettingRequest {
+  string id = 1 [(validate.rules).string = {min_len: 1}];
+  string uid = 2 [(validate.rules).string = {min_len: 1}];
+  int64 amount = 3 [(validate.rules).int64.gt = 0];
+  string action = 4 [(validate.rules).string = {min_len: 1}];
+}
+message BettingResponse{
+  int32 status = 1;
+  string msg = 2;
+  int64 balance = 3;
+}
+message HistoryRequest {
+  string uid = 1 [(validate.rules).string = {min_len: 1}];
+  int64 limit = 2;
+  int64 page = 3;
+}
+message HistoryResponse {
+  message Data {
+    string id = 1;
+    int64 amount = 2;
+    string action = 3;
+  }
+  string msg = 1;
+  repeated Data data = 2;
+}
+message CreateAccountRequest{
+  string uid = 1 [(validate.rules).string = {min_len: 1}];
+}
+message CreateAccountResponse{
+  int32 status = 1;
+  string msg = 2;
+}
+message GetBalanceRequest {
+  string uid = 1 [(validate.rules).string = {min_len: 1}];
+}
+message GetBalanceResponse {
+  int32 status = 1;
+  string msg = 2;
+  int64 balance = 3;
+}
+message GetAccountRequest {}
+message GetAccountResponse {
+  int32 status = 1;
+  string msg = 2;
+  repeated string accounts = 3;
+}
