@@ -15,7 +15,7 @@ message ResetRequest {}
 message CreditRequest {
   string id = 1;
   string uid = 2;
-  int32 amount = 3;
+  int64 amount = 3;
 }
 message CreditResponse {
   string msg = 1;
@@ -25,7 +25,7 @@ message CreditResponse {
 message DebitRequest {
   string id = 1;
   string uid = 2;
-  int32 amount = 3;
+  int64 amount = 3;
 }
 message DebitResponse {
   string msg = 1;
@@ -48,7 +48,7 @@ message ListUserTransactionsRequest {
 message ListUserTransactionsResponse {
   message Data {
     string id = 1;
-    int32 amount = 2;
+    int64 amount = 2;
     string action = 3;
   }
   string msg = 1;
@@ -59,10 +59,10 @@ message ListUserTransactionsResponse {
 message StreamTransactionRequest {
   string id = 1;
   string uid = 2;
-  uint32 amo = 3;
+  int64 amo = 3;
   Action act = 4;
 }
 message StreamTransactionResponse {
   string msg = 1;
-  uint32 b = 2;
+  uint64 b = 2;
 }
