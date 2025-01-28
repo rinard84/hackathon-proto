@@ -65,4 +65,5 @@ message StreamTransactionRequest {
 message StreamTransactionResponse {
   string msg = 1;
   uint32 b = 2;
+  uint32 ms = 3;
 }
