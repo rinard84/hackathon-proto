@@ -183,7 +183,7 @@ func request_ProcessorService_GetUserBalance_0(ctx context.Context, marshaler ru
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uid, err = runtime.Int64(val)
+	protoReq.Uid, err = runtime.Bytes(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
@@ -209,7 +209,7 @@ func local_request_ProcessorService_GetUserBalance_0(ctx context.Context, marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uid, err = runtime.Int64(val)
+	protoReq.Uid, err = runtime.Bytes(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
@@ -239,7 +239,7 @@ func request_ProcessorService_ListUserTransactions_0(ctx context.Context, marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uid, err = runtime.Int64(val)
+	protoReq.Uid, err = runtime.Bytes(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
@@ -272,7 +272,7 @@ func local_request_ProcessorService_ListUserTransactions_0(ctx context.Context, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "uid")
 	}
 
-	protoReq.Uid, err = runtime.Int64(val)
+	protoReq.Uid, err = runtime.Bytes(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "uid", err)
 	}
