@@ -61,6 +61,7 @@ message StreamTransactionRequest {
   int64 uid = 2;
   int32 amo = 3;
   Action act = 4;
+  int64 t = 5;
 }
 message StreamTransactionResponse {
   string msg = 1;
