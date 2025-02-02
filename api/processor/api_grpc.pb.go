@@ -33,7 +33,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProcessorServiceClient interface {
-	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateAccount(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_CreateAccountClient, error)
 	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
 	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
@@ -50,13 +50,38 @@ func NewProcessorServiceClient(cc grpc.ClientConnInterface) ProcessorServiceClie
 	return &processorServiceClient{cc}
 }
 
-func (c *processorServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, ProcessorService_CreateAccount_FullMethodName, in, out, opts...)
+func (c *processorServiceClient) CreateAccount(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_CreateAccountClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProcessorService_ServiceDesc.Streams[0], ProcessorService_CreateAccount_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &processorServiceCreateAccountClient{stream}
+	return x, nil
+}
+
+type ProcessorService_CreateAccountClient interface {
+	Send(*CreateAccountRequest) error
+	CloseAndRecv() (*emptypb.Empty, error)
+	grpc.ClientStream
+}
+
+type processorServiceCreateAccountClient struct {
+	grpc.ClientStream
+}
+
+func (x *processorServiceCreateAccountClient) Send(m *CreateAccountRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *processorServiceCreateAccountClient) CloseAndRecv() (*emptypb.Empty, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(emptypb.Empty)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *processorServiceClient) Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
@@ -105,7 +130,7 @@ func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *L
 }
 
 func (c *processorServiceClient) StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProcessorService_ServiceDesc.Streams[0], ProcessorService_StreamTransaction_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ProcessorService_ServiceDesc.Streams[1], ProcessorService_StreamTransaction_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +164,7 @@ func (x *processorServiceStreamTransactionClient) Recv() (*StreamTransactionResp
 // All implementations must embed UnimplementedProcessorServiceServer
 // for forward compatibility
 type ProcessorServiceServer interface {
-	CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error)
+	CreateAccount(ProcessorService_CreateAccountServer) error
 	Reset(context.Context, *ResetRequest) (*emptypb.Empty, error)
 	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
 	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
@@ -153,8 +178,8 @@ type ProcessorServiceServer interface {
 type UnimplementedProcessorServiceServer struct {
 }
 
-func (UnimplementedProcessorServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+func (UnimplementedProcessorServiceServer) CreateAccount(ProcessorService_CreateAccountServer) error {
+	return status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
 func (UnimplementedProcessorServiceServer) Reset(context.Context, *ResetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reset not implemented")
@@ -187,22 +212,30 @@ func RegisterProcessorServiceServer(s grpc.ServiceRegistrar, srv ProcessorServic
 	s.RegisterService(&ProcessorService_ServiceDesc, srv)
 }
 
-func _ProcessorService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAccountRequest)
-	if err := dec(in); err != nil {
+func _ProcessorService_CreateAccount_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ProcessorServiceServer).CreateAccount(&processorServiceCreateAccountServer{stream})
+}
+
+type ProcessorService_CreateAccountServer interface {
+	SendAndClose(*emptypb.Empty) error
+	Recv() (*CreateAccountRequest, error)
+	grpc.ServerStream
+}
+
+type processorServiceCreateAccountServer struct {
+	grpc.ServerStream
+}
+
+func (x *processorServiceCreateAccountServer) SendAndClose(m *emptypb.Empty) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *processorServiceCreateAccountServer) Recv() (*CreateAccountRequest, error) {
+	m := new(CreateAccountRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(ProcessorServiceServer).CreateAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProcessorService_CreateAccount_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcessorServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
 func _ProcessorService_Reset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -329,10 +362,6 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProcessorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateAccount",
-			Handler:    _ProcessorService_CreateAccount_Handler,
-		},
-		{
 			MethodName: "Reset",
 			Handler:    _ProcessorService_Reset_Handler,
 		},
@@ -354,6 +383,11 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "CreateAccount",
+			Handler:       _ProcessorService_CreateAccount_Handler,
+			ClientStreams: true,
+		},
 		{
 			StreamName:    "StreamTransaction",
 			Handler:       _ProcessorService_StreamTransaction_Handler,

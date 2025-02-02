@@ -5,7 +5,7 @@ import "processor/data.proto";
 import "google/protobuf/empty.proto";
 
 service ProcessorService {
-  rpc CreateAccount(CreateAccountRequest) returns (google.protobuf.Empty) {
+  rpc CreateAccount(stream CreateAccountRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/accounts",
       body : "*",
