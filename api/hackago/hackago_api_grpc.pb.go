@@ -26,6 +26,7 @@ const (
 	HackaGoService_History_FullMethodName       = "/backend.hackago.api.HackaGoService/History"
 	HackaGoService_GetBalance_FullMethodName    = "/backend.hackago.api.HackaGoService/GetBalance"
 	HackaGoService_GetAccount_FullMethodName    = "/backend.hackago.api.HackaGoService/GetAccount"
+	HackaGoService_BettingV2_FullMethodName     = "/backend.hackago.api.HackaGoService/BettingV2"
 )
 
 // HackaGoServiceClient is the client API for HackaGoService service.
@@ -39,6 +40,8 @@ type HackaGoServiceClient interface {
 	History(ctx context.Context, in *HistoryRequest, opts ...grpc.CallOption) (*HistoryResponse, error)
 	GetBalance(ctx context.Context, in *GetBalanceRequest, opts ...grpc.CallOption) (*GetBalanceResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
+	// Bi-directional streaming
+	BettingV2(ctx context.Context, opts ...grpc.CallOption) (HackaGoService_BettingV2Client, error)
 }
 
 type hackaGoServiceClient struct {
@@ -112,6 +115,37 @@ func (c *hackaGoServiceClient) GetAccount(ctx context.Context, in *GetAccountReq
 	return out, nil
 }
 
+func (c *hackaGoServiceClient) BettingV2(ctx context.Context, opts ...grpc.CallOption) (HackaGoService_BettingV2Client, error) {
+	stream, err := c.cc.NewStream(ctx, &HackaGoService_ServiceDesc.Streams[0], HackaGoService_BettingV2_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &hackaGoServiceBettingV2Client{stream}
+	return x, nil
+}
+
+type HackaGoService_BettingV2Client interface {
+	Send(*BettingRequest) error
+	Recv() (*BettingResponse, error)
+	grpc.ClientStream
+}
+
+type hackaGoServiceBettingV2Client struct {
+	grpc.ClientStream
+}
+
+func (x *hackaGoServiceBettingV2Client) Send(m *BettingRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *hackaGoServiceBettingV2Client) Recv() (*BettingResponse, error) {
+	m := new(BettingResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HackaGoServiceServer is the server API for HackaGoService service.
 // All implementations must embed UnimplementedHackaGoServiceServer
 // for forward compatibility
@@ -123,6 +157,8 @@ type HackaGoServiceServer interface {
 	History(context.Context, *HistoryRequest) (*HistoryResponse, error)
 	GetBalance(context.Context, *GetBalanceRequest) (*GetBalanceResponse, error)
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
+	// Bi-directional streaming
+	BettingV2(HackaGoService_BettingV2Server) error
 	mustEmbedUnimplementedHackaGoServiceServer()
 }
 
@@ -150,6 +186,9 @@ func (UnimplementedHackaGoServiceServer) GetBalance(context.Context, *GetBalance
 }
 func (UnimplementedHackaGoServiceServer) GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (UnimplementedHackaGoServiceServer) BettingV2(HackaGoService_BettingV2Server) error {
+	return status.Errorf(codes.Unimplemented, "method BettingV2 not implemented")
 }
 func (UnimplementedHackaGoServiceServer) mustEmbedUnimplementedHackaGoServiceServer() {}
 
@@ -290,6 +329,32 @@ func _HackaGoService_GetAccount_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HackaGoService_BettingV2_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(HackaGoServiceServer).BettingV2(&hackaGoServiceBettingV2Server{stream})
+}
+
+type HackaGoService_BettingV2Server interface {
+	Send(*BettingResponse) error
+	Recv() (*BettingRequest, error)
+	grpc.ServerStream
+}
+
+type hackaGoServiceBettingV2Server struct {
+	grpc.ServerStream
+}
+
+func (x *hackaGoServiceBettingV2Server) Send(m *BettingResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *hackaGoServiceBettingV2Server) Recv() (*BettingRequest, error) {
+	m := new(BettingRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HackaGoService_ServiceDesc is the grpc.ServiceDesc for HackaGoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +391,13 @@ var HackaGoService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HackaGoService_GetAccount_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "BettingV2",
+			Handler:       _HackaGoService_BettingV2_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "hackago/hackago_api.proto",
 }

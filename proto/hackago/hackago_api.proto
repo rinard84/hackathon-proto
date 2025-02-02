@@ -44,4 +44,7 @@ service HackaGoService {
       get: "/api/get-accounts"
     };
   }
+
+  // Bi-directional streaming
+  rpc BettingV2(stream BettingRequest) returns (stream BettingResponse);
 }
