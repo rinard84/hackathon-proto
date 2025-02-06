@@ -56,6 +56,13 @@ message ListUserTransactionsResponse {
   int32 total = 3;
 }
 
+message CheckTransactionRequest {
+  int64 id = 1;
+}
+message CheckTransactionResponse {
+  bool existed = 1;
+}
+
 message StreamTransactionRequest {
   int64 id = 1;
   int64 uid = 2;

@@ -26,6 +26,7 @@ const (
 	ProcessorService_Debit_FullMethodName                = "/backend.processor.api.ProcessorService/Debit"
 	ProcessorService_GetUserBalance_FullMethodName       = "/backend.processor.api.ProcessorService/GetUserBalance"
 	ProcessorService_ListUserTransactions_FullMethodName = "/backend.processor.api.ProcessorService/ListUserTransactions"
+	ProcessorService_CheckTransaction_FullMethodName     = "/backend.processor.api.ProcessorService/CheckTransaction"
 	ProcessorService_StreamTransaction_FullMethodName    = "/backend.processor.api.ProcessorService/StreamTransaction"
 )
 
@@ -39,6 +40,7 @@ type ProcessorServiceClient interface {
 	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
+	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error)
 }
 
@@ -104,6 +106,15 @@ func (c *processorServiceClient) ListUserTransactions(ctx context.Context, in *L
 	return out, nil
 }
 
+func (c *processorServiceClient) CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error) {
+	out := new(CheckTransactionResponse)
+	err := c.cc.Invoke(ctx, ProcessorService_CheckTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *processorServiceClient) StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error) {
 	stream, err := c.cc.NewStream(ctx, &ProcessorService_ServiceDesc.Streams[0], ProcessorService_StreamTransaction_FullMethodName, opts...)
 	if err != nil {
@@ -145,6 +156,7 @@ type ProcessorServiceServer interface {
 	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
+	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamTransaction(ProcessorService_StreamTransactionServer) error
 	mustEmbedUnimplementedProcessorServiceServer()
 }
@@ -170,6 +182,9 @@ func (UnimplementedProcessorServiceServer) GetUserBalance(context.Context, *GetU
 }
 func (UnimplementedProcessorServiceServer) ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserTransactions not implemented")
+}
+func (UnimplementedProcessorServiceServer) CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckTransaction not implemented")
 }
 func (UnimplementedProcessorServiceServer) StreamTransaction(ProcessorService_StreamTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamTransaction not implemented")
@@ -295,6 +310,24 @@ func _ProcessorService_ListUserTransactions_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProcessorService_CheckTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProcessorServiceServer).CheckTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProcessorService_CheckTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProcessorServiceServer).CheckTransaction(ctx, req.(*CheckTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ProcessorService_StreamTransaction_Handler(srv interface{}, stream grpc.ServerStream) error {
 	return srv.(ProcessorServiceServer).StreamTransaction(&processorServiceStreamTransactionServer{stream})
 }
@@ -351,6 +384,10 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUserTransactions",
 			Handler:    _ProcessorService_ListUserTransactions_Handler,
+		},
+		{
+			MethodName: "CheckTransaction",
+			Handler:    _ProcessorService_CheckTransaction_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

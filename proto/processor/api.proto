@@ -39,6 +39,11 @@ service ProcessorService {
       get : "/api/users/{uid}/transactions",
     };
   }
+  rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {
+    option (google.api.http) = {
+      get : "/api/transaction/{id}/check",
+    };
+  }
   rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {
     option (google.api.http) = {
       post : "/api/streams/transactions",
