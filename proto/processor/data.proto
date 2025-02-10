@@ -66,12 +66,13 @@ message CheckTransactionResponse {
 message StreamTransactionRequest {
   int64 id = 1;
   int64 uid = 2;
-  int32 amo = 3;
-  Action act = 4;
-  int64 t = 5;
+  int64 t = 3;
+  int32 amo = 4;
+  Action act = 5;
 }
 message StreamTransactionResponse {
-  string msg = 1;
-  uint32 b = 2;
-  int64 t = 3;
+  int64 id = 1;
+  int64 t = 2;
+  uint32 b = 3;
+  string msg = 4;
 }
