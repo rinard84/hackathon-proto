@@ -1,5 +1,7 @@
 syntax = "proto3";
 package backend.processor.api;
+import "validate/validate.proto";
+
 
 enum Action {
   CREDIT = 0;
@@ -13,9 +15,9 @@ message CreateAccountRequest {
 message ResetRequest {}
 
 message CreditRequest {
-  int64 id = 1;
-  int64 uid = 2;
-  int32 amount = 3;
+  int64 id = 1 [(validate.rules).int64.gt = 0];
+  int64 uid = 2 [(validate.rules).int64.gt = 0];
+  int32 amount = 3 [(validate.rules).int32.gt = 0];
 }
 message CreditResponse {
   string msg = 1;
@@ -23,9 +25,9 @@ message CreditResponse {
 }
 
 message DebitRequest {
-  int64 id = 1;
-  int64 uid = 2;
-  int32 amount = 3;
+  int64 id = 1 [(validate.rules).int64.gt = 0];
+  int64 uid = 2 [(validate.rules).int64.gt = 0];
+  int32 amount = 3 [(validate.rules).int32.gt = 0];
 }
 message DebitResponse {
   string msg = 1;
@@ -33,7 +35,7 @@ message DebitResponse {
 }
 
 message GetUserBalanceRequest {
-  int64 uid = 1;
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
 }
 message GetUserBalanceResponse {
   string msg = 1;
@@ -41,7 +43,7 @@ message GetUserBalanceResponse {
 }
 
 message ListUserTransactionsRequest {
-  int64 uid = 1;
+  int64 uid = 1 [(validate.rules).int64.gt = 0];
   int64 limit = 2;
   int64 page = 3;
 }
@@ -57,17 +59,17 @@ message ListUserTransactionsResponse {
 }
 
 message CheckTransactionRequest {
-  int64 id = 1;
+  int64 id = 1 [(validate.rules).int64.gt = 0];
 }
 message CheckTransactionResponse {
   bool existed = 1;
 }
 
 message StreamTransactionRequest {
-  int64 id = 1;
-  int64 uid = 2;
-  int64 t = 3;
-  int32 amo = 4;
+  int64 id = 1 [(validate.rules).int64.gt = 0];
+  int64 uid = 2 [(validate.rules).int64.gt = 0];
+  int64 t = 3 [(validate.rules).int64.gt = 0];
+  int32 amo = 4 [(validate.rules).int32.gt = 0];
   Action act = 5;
 }
 message StreamTransactionResponse {
@@ -75,4 +77,13 @@ message StreamTransactionResponse {
   int64 t = 2;
   uint32 b = 3;
   string msg = 4;
+}
+
+message ListWrongBalanceRequest {}
+message ListWrongBalanceResponse {
+  message Data {
+    int64 uid = 1;
+    int32 balance = 2;
+  }
+  repeated Data data = 1;
 }

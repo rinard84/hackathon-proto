@@ -28,6 +28,7 @@ const (
 	ProcessorService_ListUserTransactions_FullMethodName = "/backend.processor.api.ProcessorService/ListUserTransactions"
 	ProcessorService_CheckTransaction_FullMethodName     = "/backend.processor.api.ProcessorService/CheckTransaction"
 	ProcessorService_StreamTransaction_FullMethodName    = "/backend.processor.api.ProcessorService/StreamTransaction"
+	ProcessorService_ListWrongBalance_FullMethodName     = "/backend.processor.api.ProcessorService/ListWrongBalance"
 )
 
 // ProcessorServiceClient is the client API for ProcessorService service.
@@ -42,6 +43,7 @@ type ProcessorServiceClient interface {
 	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
 	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (ProcessorService_StreamTransactionClient, error)
+	ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error)
 }
 
 type processorServiceClient struct {
@@ -146,6 +148,15 @@ func (x *processorServiceStreamTransactionClient) Recv() (*StreamTransactionResp
 	return m, nil
 }
 
+func (c *processorServiceClient) ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error) {
+	out := new(ListWrongBalanceResponse)
+	err := c.cc.Invoke(ctx, ProcessorService_ListWrongBalance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProcessorServiceServer is the server API for ProcessorService service.
 // All implementations must embed UnimplementedProcessorServiceServer
 // for forward compatibility
@@ -158,6 +169,7 @@ type ProcessorServiceServer interface {
 	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
 	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamTransaction(ProcessorService_StreamTransactionServer) error
+	ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error)
 	mustEmbedUnimplementedProcessorServiceServer()
 }
 
@@ -188,6 +200,9 @@ func (UnimplementedProcessorServiceServer) CheckTransaction(context.Context, *Ch
 }
 func (UnimplementedProcessorServiceServer) StreamTransaction(ProcessorService_StreamTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamTransaction not implemented")
+}
+func (UnimplementedProcessorServiceServer) ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWrongBalance not implemented")
 }
 func (UnimplementedProcessorServiceServer) mustEmbedUnimplementedProcessorServiceServer() {}
 
@@ -354,6 +369,24 @@ func (x *processorServiceStreamTransactionServer) Recv() (*StreamTransactionRequ
 	return m, nil
 }
 
+func _ProcessorService_ListWrongBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWrongBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProcessorServiceServer).ListWrongBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProcessorService_ListWrongBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProcessorServiceServer).ListWrongBalance(ctx, req.(*ListWrongBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProcessorService_ServiceDesc is the grpc.ServiceDesc for ProcessorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -388,6 +421,10 @@ var ProcessorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckTransaction",
 			Handler:    _ProcessorService_CheckTransaction_Handler,
+		},
+		{
+			MethodName: "ListWrongBalance",
+			Handler:    _ProcessorService_ListWrongBalance_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

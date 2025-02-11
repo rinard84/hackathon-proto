@@ -50,4 +50,9 @@ service ProcessorService {
       body : "*",
     };
   }
+  rpc ListWrongBalance(ListWrongBalanceRequest) returns (ListWrongBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/wrong-balances",
+    };
+  }
 }
