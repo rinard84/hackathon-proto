@@ -83,7 +83,8 @@ message ListWrongBalanceRequest {}
 message ListWrongBalanceResponse {
   message Data {
     int64 uid = 1;
-    int32 balance = 2;
+    int32 wrong_balance = 2;
+    int32 right_balance = 3;
   }
   repeated Data data = 1;
 }
