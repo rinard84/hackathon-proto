@@ -3,10 +3,10 @@ package backend.processor.api;
 import "validate/validate.proto";
 
 enum StatusCode {
-  OK = 0;
-  DuplicatedTransaction = 1;
-  BalanceNotEnough = 2;
-  Unknown = 3;
+  Unknown = 0;
+  OK = 1;
+  DuplicatedTransaction = 2;
+  BalanceNotEnough = 3;
 }
 
 enum Action {
