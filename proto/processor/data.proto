@@ -2,6 +2,12 @@ syntax = "proto3";
 package backend.processor.api;
 import "validate/validate.proto";
 
+enum StatusCode {
+  OK = 0;
+  DuplicatedTransaction = 1;
+  BalanceNotEnough = 2;
+  Unknown = 3;
+}
 
 enum Action {
   CREDIT = 0;
@@ -20,7 +26,7 @@ message CreditRequest {
   int32 amount = 3 [(validate.rules).int32.gt = 0];
 }
 message CreditResponse {
-  string msg = 1;
+  StatusCode code = 1;
   uint32 balance = 2;
 }
 
@@ -30,7 +36,7 @@ message DebitRequest {
   int32 amount = 3 [(validate.rules).int32.gt = 0];
 }
 message DebitResponse {
-  string msg = 1;
+  StatusCode code = 1;
   uint32 balance = 2;
 }
 
@@ -38,7 +44,7 @@ message GetUserBalanceRequest {
   int64 uid = 1 [(validate.rules).int64.gt = 0];
 }
 message GetUserBalanceResponse {
-  string msg = 1;
+  StatusCode code = 1;
   uint32 balance = 2;
 }
 
@@ -53,7 +59,7 @@ message ListUserTransactionsResponse {
     int32 amount = 2;
     string action = 3;
   }
-  string msg = 1;
+  StatusCode code = 1;
   repeated Data data = 2;
   int32 total = 3;
 }
@@ -76,7 +82,7 @@ message StreamTransactionResponse {
   int64 id = 1;
   int64 t = 2;
   uint32 b = 3;
-  string msg = 4;
+  StatusCode code = 4;
 }
 
 message ListWrongBalanceRequest {}
