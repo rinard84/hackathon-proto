@@ -9,11 +9,6 @@ enum StatusCode {
   BalanceNotEnough = 3;
 }
 
-enum Action {
-  CREDIT = 0;
-  DEBIT = 1;
-}
-
 message CreateAccountRequest {
   int64 uid = 1;
 }
@@ -75,7 +70,7 @@ message StreamBatchTransactionRequest {
   message Data {
     int64 id = 1 [(validate.rules).int64.gt = 0];
     int64 uid = 2 [(validate.rules).int64.gt = 0];
-    int32 amo = 3 [(validate.rules).int32.gt = 0];
+    int32 amo = 3 [(validate.rules).int32 = {not_in: [0]}];
   }
   repeated Data data = 1;
 }

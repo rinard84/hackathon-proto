@@ -75,8 +75,7 @@ message StreamTransactionRequest {
   int64 id = 1 [(validate.rules).int64.gt = 0];
   int64 uid = 2 [(validate.rules).int64.gt = 0];
   int64 t = 3 [(validate.rules).int64.gt = 0];
-  int32 amo = 4 [(validate.rules).int32.gt = 0];
-  Action act = 5;
+  int32 amo = 4 [(validate.rules).int32 = {not_in: [0]}];
 }
 message StreamTransactionResponse {
   int64 id = 1;
