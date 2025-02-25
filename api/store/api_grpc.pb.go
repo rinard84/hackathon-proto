@@ -20,18 +20,30 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	StoreService_Reset_FullMethodName             = "/backend.store.api.StoreService/Reset"
-	StoreService_CheckTransaction_FullMethodName  = "/backend.store.api.StoreService/CheckTransaction"
-	StoreService_StreamTransaction_FullMethodName = "/backend.store.api.StoreService/StreamTransaction"
+	StoreService_CreateAccount_FullMethodName        = "/backend.store.api.StoreService/CreateAccount"
+	StoreService_Reset_FullMethodName                = "/backend.store.api.StoreService/Reset"
+	StoreService_Credit_FullMethodName               = "/backend.store.api.StoreService/Credit"
+	StoreService_Debit_FullMethodName                = "/backend.store.api.StoreService/Debit"
+	StoreService_GetUserBalance_FullMethodName       = "/backend.store.api.StoreService/GetUserBalance"
+	StoreService_ListUserTransactions_FullMethodName = "/backend.store.api.StoreService/ListUserTransactions"
+	StoreService_CheckTransaction_FullMethodName     = "/backend.store.api.StoreService/CheckTransaction"
+	StoreService_StreamTransaction_FullMethodName    = "/backend.store.api.StoreService/StreamTransaction"
+	StoreService_ListWrongBalance_FullMethodName     = "/backend.store.api.StoreService/ListWrongBalance"
 )
 
 // StoreServiceClient is the client API for StoreService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StoreServiceClient interface {
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
+	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
+	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
+	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
 	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamTransactionClient, error)
+	ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error)
 }
 
 type storeServiceClient struct {
@@ -42,9 +54,54 @@ func NewStoreServiceClient(cc grpc.ClientConnInterface) StoreServiceClient {
 	return &storeServiceClient{cc}
 }
 
+func (c *storeServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, StoreService_CreateAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storeServiceClient) Reset(ctx context.Context, in *ResetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, StoreService_Reset_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storeServiceClient) Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error) {
+	out := new(CreditResponse)
+	err := c.cc.Invoke(ctx, StoreService_Credit_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storeServiceClient) Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error) {
+	out := new(DebitResponse)
+	err := c.cc.Invoke(ctx, StoreService_Debit_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storeServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error) {
+	out := new(GetUserBalanceResponse)
+	err := c.cc.Invoke(ctx, StoreService_GetUserBalance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storeServiceClient) ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error) {
+	out := new(ListUserTransactionsResponse)
+	err := c.cc.Invoke(ctx, StoreService_ListUserTransactions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,13 +148,28 @@ func (x *storeServiceStreamTransactionClient) Recv() (*StreamTransactionResponse
 	return m, nil
 }
 
+func (c *storeServiceClient) ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error) {
+	out := new(ListWrongBalanceResponse)
+	err := c.cc.Invoke(ctx, StoreService_ListWrongBalance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoreServiceServer is the server API for StoreService service.
 // All implementations must embed UnimplementedStoreServiceServer
 // for forward compatibility
 type StoreServiceServer interface {
+	CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error)
 	Reset(context.Context, *ResetRequest) (*emptypb.Empty, error)
+	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
+	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
+	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
+	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
 	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamTransaction(StoreService_StreamTransactionServer) error
+	ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error)
 	mustEmbedUnimplementedStoreServiceServer()
 }
 
@@ -105,14 +177,32 @@ type StoreServiceServer interface {
 type UnimplementedStoreServiceServer struct {
 }
 
+func (UnimplementedStoreServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+}
 func (UnimplementedStoreServiceServer) Reset(context.Context, *ResetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Reset not implemented")
+}
+func (UnimplementedStoreServiceServer) Credit(context.Context, *CreditRequest) (*CreditResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Credit not implemented")
+}
+func (UnimplementedStoreServiceServer) Debit(context.Context, *DebitRequest) (*DebitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Debit not implemented")
+}
+func (UnimplementedStoreServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
+}
+func (UnimplementedStoreServiceServer) ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUserTransactions not implemented")
 }
 func (UnimplementedStoreServiceServer) CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckTransaction not implemented")
 }
 func (UnimplementedStoreServiceServer) StreamTransaction(StoreService_StreamTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamTransaction not implemented")
+}
+func (UnimplementedStoreServiceServer) ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWrongBalance not implemented")
 }
 func (UnimplementedStoreServiceServer) mustEmbedUnimplementedStoreServiceServer() {}
 
@@ -125,6 +215,24 @@ type UnsafeStoreServiceServer interface {
 
 func RegisterStoreServiceServer(s grpc.ServiceRegistrar, srv StoreServiceServer) {
 	s.RegisterService(&StoreService_ServiceDesc, srv)
+}
+
+func _StoreService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).CreateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_CreateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _StoreService_Reset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -141,6 +249,78 @@ func _StoreService_Reset_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StoreServiceServer).Reset(ctx, req.(*ResetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StoreService_Credit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreditRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).Credit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_Credit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).Credit(ctx, req.(*CreditRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StoreService_Debit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DebitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).Debit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_Debit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).Debit(ctx, req.(*DebitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StoreService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).GetUserBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_GetUserBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StoreService_ListUserTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).ListUserTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_ListUserTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).ListUserTransactions(ctx, req.(*ListUserTransactionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -189,6 +369,24 @@ func (x *storeServiceStreamTransactionServer) Recv() (*StreamTransactionRequest,
 	return m, nil
 }
 
+func _StoreService_ListWrongBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWrongBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).ListWrongBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_ListWrongBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).ListWrongBalance(ctx, req.(*ListWrongBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StoreService_ServiceDesc is the grpc.ServiceDesc for StoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -197,12 +395,36 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*StoreServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreateAccount",
+			Handler:    _StoreService_CreateAccount_Handler,
+		},
+		{
 			MethodName: "Reset",
 			Handler:    _StoreService_Reset_Handler,
 		},
 		{
+			MethodName: "Credit",
+			Handler:    _StoreService_Credit_Handler,
+		},
+		{
+			MethodName: "Debit",
+			Handler:    _StoreService_Debit_Handler,
+		},
+		{
+			MethodName: "GetUserBalance",
+			Handler:    _StoreService_GetUserBalance_Handler,
+		},
+		{
+			MethodName: "ListUserTransactions",
+			Handler:    _StoreService_ListUserTransactions_Handler,
+		},
+		{
 			MethodName: "CheckTransaction",
 			Handler:    _StoreService_CheckTransaction_Handler,
+		},
+		{
+			MethodName: "ListWrongBalance",
+			Handler:    _StoreService_ListWrongBalance_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

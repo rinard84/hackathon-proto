@@ -5,7 +5,54 @@ import "store/data.proto";
 import "google/protobuf/empty.proto";
 
 service StoreService {
-  rpc Reset(ResetRequest) returns (google.protobuf.Empty) {}
-  rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {}
-  rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {}
+  rpc CreateAccount(CreateAccountRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/accounts",
+      body : "*",
+    };
+  }
+  rpc Reset(ResetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/reset",
+      body : "*",
+    };
+  }
+  rpc Credit(CreditRequest) returns (CreditResponse) {
+    option (google.api.http) = {
+      post : "/api/credit",
+      body : "*",
+    };
+  }
+  rpc Debit(DebitRequest) returns (DebitResponse) {
+    option (google.api.http) = {
+      post : "/api/debit",
+      body : "*",
+    };
+  }
+  rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/users/{uid}/balance",
+    };
+  }
+  rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
+    option (google.api.http) = {
+      get : "/api/users/{uid}/transactions",
+    };
+  }
+  rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {
+    option (google.api.http) = {
+      get : "/api/transaction/{id}/check",
+    };
+  }
+  rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {
+    option (google.api.http) = {
+      post : "/api/streams/transactions",
+      body : "*",
+    };
+  }
+  rpc ListWrongBalance(ListWrongBalanceRequest) returns (ListWrongBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/wrong-balances",
+    };
+  }
 }
