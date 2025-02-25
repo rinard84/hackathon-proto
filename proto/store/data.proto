@@ -75,12 +75,11 @@ message StreamBatchTransactionRequest {
   repeated Data data = 1;
 }
 
-message ListWrongBalanceRequest {}
-message ListWrongBalanceResponse {
+message ListBalanceRequest {}
+message ListBalanceResponse {
   message Data {
     int64 uid = 1;
-    int32 wrong_balance = 2;
-    int32 right_balance = 3;
+    int32 balance = 2;
   }
   repeated Data data = 1;
 }

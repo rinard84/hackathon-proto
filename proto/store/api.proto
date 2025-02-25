@@ -34,11 +34,6 @@ service StoreService {
       get : "/api/users/{uid}/balance",
     };
   }
-  rpc ListUserTransactions(ListUserTransactionsRequest) returns (ListUserTransactionsResponse) {
-    option (google.api.http) = {
-      get : "/api/users/{uid}/transactions",
-    };
-  }
   rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {
     option (google.api.http) = {
       get : "/api/transaction/{id}/check",
@@ -50,9 +45,9 @@ service StoreService {
       body : "*",
     };
   }
-  rpc ListWrongBalance(ListWrongBalanceRequest) returns (ListWrongBalanceResponse) {
+  rpc ListBalance(ListBalanceRequest) returns (ListBalanceResponse) {
     option (google.api.http) = {
-      get : "/api/wrong-balances",
+      get : "/api/balances",
     };
   }
 }

@@ -25,10 +25,9 @@ const (
 	StoreService_Credit_FullMethodName                 = "/backend.store.api.StoreService/Credit"
 	StoreService_Debit_FullMethodName                  = "/backend.store.api.StoreService/Debit"
 	StoreService_GetUserBalance_FullMethodName         = "/backend.store.api.StoreService/GetUserBalance"
-	StoreService_ListUserTransactions_FullMethodName   = "/backend.store.api.StoreService/ListUserTransactions"
 	StoreService_CheckTransaction_FullMethodName       = "/backend.store.api.StoreService/CheckTransaction"
 	StoreService_StreamBatchTransaction_FullMethodName = "/backend.store.api.StoreService/StreamBatchTransaction"
-	StoreService_ListWrongBalance_FullMethodName       = "/backend.store.api.StoreService/ListWrongBalance"
+	StoreService_ListBalance_FullMethodName            = "/backend.store.api.StoreService/ListBalance"
 )
 
 // StoreServiceClient is the client API for StoreService service.
@@ -40,10 +39,9 @@ type StoreServiceClient interface {
 	Credit(ctx context.Context, in *CreditRequest, opts ...grpc.CallOption) (*CreditResponse, error)
 	Debit(ctx context.Context, in *DebitRequest, opts ...grpc.CallOption) (*DebitResponse, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
-	ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error)
 	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamBatchTransactionClient, error)
-	ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error)
+	ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error)
 }
 
 type storeServiceClient struct {
@@ -99,15 +97,6 @@ func (c *storeServiceClient) GetUserBalance(ctx context.Context, in *GetUserBala
 	return out, nil
 }
 
-func (c *storeServiceClient) ListUserTransactions(ctx context.Context, in *ListUserTransactionsRequest, opts ...grpc.CallOption) (*ListUserTransactionsResponse, error) {
-	out := new(ListUserTransactionsResponse)
-	err := c.cc.Invoke(ctx, StoreService_ListUserTransactions_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *storeServiceClient) CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error) {
 	out := new(CheckTransactionResponse)
 	err := c.cc.Invoke(ctx, StoreService_CheckTransaction_FullMethodName, in, out, opts...)
@@ -151,9 +140,9 @@ func (x *storeServiceStreamBatchTransactionClient) CloseAndRecv() (*emptypb.Empt
 	return m, nil
 }
 
-func (c *storeServiceClient) ListWrongBalance(ctx context.Context, in *ListWrongBalanceRequest, opts ...grpc.CallOption) (*ListWrongBalanceResponse, error) {
-	out := new(ListWrongBalanceResponse)
-	err := c.cc.Invoke(ctx, StoreService_ListWrongBalance_FullMethodName, in, out, opts...)
+func (c *storeServiceClient) ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error) {
+	out := new(ListBalanceResponse)
+	err := c.cc.Invoke(ctx, StoreService_ListBalance_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,10 +158,9 @@ type StoreServiceServer interface {
 	Credit(context.Context, *CreditRequest) (*CreditResponse, error)
 	Debit(context.Context, *DebitRequest) (*DebitResponse, error)
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
-	ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error)
 	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(StoreService_StreamBatchTransactionServer) error
-	ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error)
+	ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error)
 	mustEmbedUnimplementedStoreServiceServer()
 }
 
@@ -195,17 +183,14 @@ func (UnimplementedStoreServiceServer) Debit(context.Context, *DebitRequest) (*D
 func (UnimplementedStoreServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
-func (UnimplementedStoreServiceServer) ListUserTransactions(context.Context, *ListUserTransactionsRequest) (*ListUserTransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListUserTransactions not implemented")
-}
 func (UnimplementedStoreServiceServer) CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckTransaction not implemented")
 }
 func (UnimplementedStoreServiceServer) StreamBatchTransaction(StoreService_StreamBatchTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamBatchTransaction not implemented")
 }
-func (UnimplementedStoreServiceServer) ListWrongBalance(context.Context, *ListWrongBalanceRequest) (*ListWrongBalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListWrongBalance not implemented")
+func (UnimplementedStoreServiceServer) ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBalance not implemented")
 }
 func (UnimplementedStoreServiceServer) mustEmbedUnimplementedStoreServiceServer() {}
 
@@ -310,24 +295,6 @@ func _StoreService_GetUserBalance_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StoreService_ListUserTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListUserTransactionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StoreServiceServer).ListUserTransactions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StoreService_ListUserTransactions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreServiceServer).ListUserTransactions(ctx, req.(*ListUserTransactionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _StoreService_CheckTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckTransactionRequest)
 	if err := dec(in); err != nil {
@@ -372,20 +339,20 @@ func (x *storeServiceStreamBatchTransactionServer) Recv() (*StreamBatchTransacti
 	return m, nil
 }
 
-func _StoreService_ListWrongBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListWrongBalanceRequest)
+func _StoreService_ListBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBalanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StoreServiceServer).ListWrongBalance(ctx, in)
+		return srv.(StoreServiceServer).ListBalance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StoreService_ListWrongBalance_FullMethodName,
+		FullMethod: StoreService_ListBalance_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoreServiceServer).ListWrongBalance(ctx, req.(*ListWrongBalanceRequest))
+		return srv.(StoreServiceServer).ListBalance(ctx, req.(*ListBalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -418,16 +385,12 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StoreService_GetUserBalance_Handler,
 		},
 		{
-			MethodName: "ListUserTransactions",
-			Handler:    _StoreService_ListUserTransactions_Handler,
-		},
-		{
 			MethodName: "CheckTransaction",
 			Handler:    _StoreService_CheckTransaction_Handler,
 		},
 		{
-			MethodName: "ListWrongBalance",
-			Handler:    _StoreService_ListWrongBalance_Handler,
+			MethodName: "ListBalance",
+			Handler:    _StoreService_ListBalance_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
