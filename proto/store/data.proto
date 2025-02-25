@@ -71,18 +71,13 @@ message CheckTransactionResponse {
   bool existed = 1;
 }
 
-message StreamTransactionRequest {
-  int64 id = 1 [(validate.rules).int64.gt = 0];
-  int64 uid = 2 [(validate.rules).int64.gt = 0];
-  int64 t = 3 [(validate.rules).int64.gt = 0];
-  int32 amo = 4 [(validate.rules).int32.gt = 0];
-  Action act = 5;
-}
-message StreamTransactionResponse {
-  int64 id = 1;
-  int64 t = 2;
-  uint32 b = 3;
-  StatusCode code = 4;
+message StreamBatchTransactionRequest {
+  message Data {
+    int64 id = 1 [(validate.rules).int64.gt = 0];
+    int64 uid = 2 [(validate.rules).int64.gt = 0];
+    int32 amo = 3 [(validate.rules).int32.gt = 0];
+  }
+  repeated Data data = 1;
 }
 
 message ListWrongBalanceRequest {}

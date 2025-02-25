@@ -341,16 +341,16 @@ func local_request_StoreService_CheckTransaction_0(ctx context.Context, marshale
 
 }
 
-func request_StoreService_StreamTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_StoreService_StreamBatchTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var metadata runtime.ServerMetadata
-	stream, err := client.StreamTransaction(ctx)
+	stream, err := client.StreamBatchTransaction(ctx)
 	if err != nil {
 		grpclog.Infof("Failed to start streaming: %v", err)
 		return nil, metadata, err
 	}
 	dec := marshaler.NewDecoder(req.Body)
 	for {
-		var protoReq StreamTransactionRequest
+		var protoReq StreamBatchTransactionRequest
 		err = dec.Decode(&protoReq)
 		if err == io.EOF {
 			break
@@ -584,7 +584,7 @@ func RegisterStoreServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("POST", pattern_StoreService_StreamTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StoreService_StreamBatchTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -811,25 +811,25 @@ func RegisterStoreServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("POST", pattern_StoreService_StreamTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_StoreService_StreamBatchTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.store.api.StoreService/StreamTransaction", runtime.WithHTTPPathPattern("/api/streams/transactions"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.store.api.StoreService/StreamBatchTransaction", runtime.WithHTTPPathPattern("/api/streams/transactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_StoreService_StreamTransaction_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_StoreService_StreamBatchTransaction_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_StoreService_StreamTransaction_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_StoreService_StreamBatchTransaction_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -873,7 +873,7 @@ var (
 
 	pattern_StoreService_CheckTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"api", "transaction", "id", "check"}, ""))
 
-	pattern_StoreService_StreamTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "streams", "transactions"}, ""))
+	pattern_StoreService_StreamBatchTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "streams", "transactions"}, ""))
 
 	pattern_StoreService_ListWrongBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "wrong-balances"}, ""))
 )
@@ -893,7 +893,7 @@ var (
 
 	forward_StoreService_CheckTransaction_0 = runtime.ForwardResponseMessage
 
-	forward_StoreService_StreamTransaction_0 = runtime.ForwardResponseMessage
+	forward_StoreService_StreamBatchTransaction_0 = runtime.ForwardResponseMessage
 
 	forward_StoreService_ListWrongBalance_0 = runtime.ForwardResponseMessage
 )
