@@ -1,0 +1,11 @@
+syntax = "proto3";
+package backend.store.api;
+import "google/api/annotations.proto";
+import "store/data.proto";
+import "google/protobuf/empty.proto";
+
+service StoreService {
+  rpc Reset(ResetRequest) returns (google.protobuf.Empty) {}
+  rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {}
+  rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {}
+}
