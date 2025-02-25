@@ -44,7 +44,7 @@ service StoreService {
       get : "/api/transaction/{id}/check",
     };
   }
-  rpc StreamTransaction(stream StreamTransactionRequest) returns (stream StreamTransactionResponse) {
+  rpc StreamTransaction(stream StreamTransactionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post : "/api/streams/transactions",
       body : "*",

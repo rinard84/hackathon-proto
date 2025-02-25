@@ -341,7 +341,7 @@ func local_request_StoreService_CheckTransaction_0(ctx context.Context, marshale
 
 }
 
-func request_StoreService_StreamTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (StoreService_StreamTransactionClient, runtime.ServerMetadata, error) {
+func request_StoreService_StreamTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var metadata runtime.ServerMetadata
 	stream, err := client.StreamTransaction(ctx)
 	if err != nil {
@@ -349,39 +349,40 @@ func request_StoreService_StreamTransaction_0(ctx context.Context, marshaler run
 		return nil, metadata, err
 	}
 	dec := marshaler.NewDecoder(req.Body)
-	handleSend := func() error {
+	for {
 		var protoReq StreamTransactionRequest
-		err := dec.Decode(&protoReq)
+		err = dec.Decode(&protoReq)
 		if err == io.EOF {
-			return err
+			break
 		}
 		if err != nil {
 			grpclog.Infof("Failed to decode request: %v", err)
-			return err
+			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 		}
-		if err := stream.Send(&protoReq); err != nil {
-			grpclog.Infof("Failed to send request: %v", err)
-			return err
-		}
-		return nil
-	}
-	go func() {
-		for {
-			if err := handleSend(); err != nil {
+		if err = stream.Send(&protoReq); err != nil {
+			if err == io.EOF {
 				break
 			}
+			grpclog.Infof("Failed to send request: %v", err)
+			return nil, metadata, err
 		}
-		if err := stream.CloseSend(); err != nil {
-			grpclog.Infof("Failed to terminate client stream: %v", err)
-		}
-	}()
+	}
+
+	if err := stream.CloseSend(); err != nil {
+		grpclog.Infof("Failed to terminate client stream: %v", err)
+		return nil, metadata, err
+	}
 	header, err := stream.Header()
 	if err != nil {
 		grpclog.Infof("Failed to get header from client: %v", err)
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
-	return stream, metadata, nil
+
+	msg, err := stream.CloseAndRecv()
+	metadata.TrailerMD = stream.Trailer()
+	return msg, metadata, err
+
 }
 
 func request_StoreService_ListWrongBalance_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -828,7 +829,7 @@ func RegisterStoreServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_StoreService_StreamTransaction_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_StoreService_StreamTransaction_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -892,7 +893,7 @@ var (
 
 	forward_StoreService_CheckTransaction_0 = runtime.ForwardResponseMessage
 
-	forward_StoreService_StreamTransaction_0 = runtime.ForwardResponseStream
+	forward_StoreService_StreamTransaction_0 = runtime.ForwardResponseMessage
 
 	forward_StoreService_ListWrongBalance_0 = runtime.ForwardResponseMessage
 )

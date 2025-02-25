@@ -128,7 +128,7 @@ func (c *storeServiceClient) StreamTransaction(ctx context.Context, opts ...grpc
 
 type StoreService_StreamTransactionClient interface {
 	Send(*StreamTransactionRequest) error
-	Recv() (*StreamTransactionResponse, error)
+	CloseAndRecv() (*emptypb.Empty, error)
 	grpc.ClientStream
 }
 
@@ -140,8 +140,11 @@ func (x *storeServiceStreamTransactionClient) Send(m *StreamTransactionRequest) 
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *storeServiceStreamTransactionClient) Recv() (*StreamTransactionResponse, error) {
-	m := new(StreamTransactionResponse)
+func (x *storeServiceStreamTransactionClient) CloseAndRecv() (*emptypb.Empty, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(emptypb.Empty)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -348,7 +351,7 @@ func _StoreService_StreamTransaction_Handler(srv interface{}, stream grpc.Server
 }
 
 type StoreService_StreamTransactionServer interface {
-	Send(*StreamTransactionResponse) error
+	SendAndClose(*emptypb.Empty) error
 	Recv() (*StreamTransactionRequest, error)
 	grpc.ServerStream
 }
@@ -357,7 +360,7 @@ type storeServiceStreamTransactionServer struct {
 	grpc.ServerStream
 }
 
-func (x *storeServiceStreamTransactionServer) Send(m *StreamTransactionResponse) error {
+func (x *storeServiceStreamTransactionServer) SendAndClose(m *emptypb.Empty) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -431,7 +434,6 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamTransaction",
 			Handler:       _StoreService_StreamTransaction_Handler,
-			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},
