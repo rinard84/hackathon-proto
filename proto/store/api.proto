@@ -45,6 +45,7 @@ service StoreService {
       body : "*",
     };
   }
+  rpc StreamTransaction(stream StreamTransactionRequest) returns (google.protobuf.Empty) {}
   rpc ListBalance(ListBalanceRequest) returns (ListBalanceResponse) {
     option (google.api.http) = {
       get : "/api/balances",
