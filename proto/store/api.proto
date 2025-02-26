@@ -1,0 +1,53 @@
+syntax = "proto3";
+package backend.store.api;
+import "google/api/annotations.proto";
+import "store/data.proto";
+import "google/protobuf/empty.proto";
+
+service StoreService {
+  rpc CreateAccount(CreateAccountRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/accounts",
+      body : "*",
+    };
+  }
+  rpc Reset(ResetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/reset",
+      body : "*",
+    };
+  }
+  rpc Credit(CreditRequest) returns (CreditResponse) {
+    option (google.api.http) = {
+      post : "/api/credit",
+      body : "*",
+    };
+  }
+  rpc Debit(DebitRequest) returns (DebitResponse) {
+    option (google.api.http) = {
+      post : "/api/debit",
+      body : "*",
+    };
+  }
+  rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/users/{uid}/balance",
+    };
+  }
+  rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse) {
+    option (google.api.http) = {
+      get : "/api/transaction/{id}/check",
+    };
+  }
+  rpc StreamBatchTransaction(stream StreamBatchTransactionRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/api/streams/transactions",
+      body : "*",
+    };
+  }
+  rpc ListBalance(ListBalanceRequest) returns (ListBalanceResponse) {
+    option (google.api.http) = {
+      get : "/api/balances",
+    };
+  }
+}
