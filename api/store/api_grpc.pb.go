@@ -28,6 +28,7 @@ const (
 	StoreService_CheckTransaction_FullMethodName       = "/backend.store.api.StoreService/CheckTransaction"
 	StoreService_StreamBatchTransaction_FullMethodName = "/backend.store.api.StoreService/StreamBatchTransaction"
 	StoreService_ListBalance_FullMethodName            = "/backend.store.api.StoreService/ListBalance"
+	StoreService_StreamCheckTransaction_FullMethodName = "/backend.store.api.StoreService/StreamCheckTransaction"
 )
 
 // StoreServiceClient is the client API for StoreService service.
@@ -42,6 +43,7 @@ type StoreServiceClient interface {
 	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamBatchTransactionClient, error)
 	ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error)
+	StreamCheckTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamCheckTransactionClient, error)
 }
 
 type storeServiceClient struct {
@@ -149,6 +151,37 @@ func (c *storeServiceClient) ListBalance(ctx context.Context, in *ListBalanceReq
 	return out, nil
 }
 
+func (c *storeServiceClient) StreamCheckTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamCheckTransactionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &StoreService_ServiceDesc.Streams[1], StoreService_StreamCheckTransaction_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &storeServiceStreamCheckTransactionClient{stream}
+	return x, nil
+}
+
+type StoreService_StreamCheckTransactionClient interface {
+	Send(*StreamCheckTransactionRequest) error
+	Recv() (*StreamCheckTransactionResponse, error)
+	grpc.ClientStream
+}
+
+type storeServiceStreamCheckTransactionClient struct {
+	grpc.ClientStream
+}
+
+func (x *storeServiceStreamCheckTransactionClient) Send(m *StreamCheckTransactionRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *storeServiceStreamCheckTransactionClient) Recv() (*StreamCheckTransactionResponse, error) {
+	m := new(StreamCheckTransactionResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // StoreServiceServer is the server API for StoreService service.
 // All implementations must embed UnimplementedStoreServiceServer
 // for forward compatibility
@@ -161,6 +194,7 @@ type StoreServiceServer interface {
 	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(StoreService_StreamBatchTransactionServer) error
 	ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error)
+	StreamCheckTransaction(StoreService_StreamCheckTransactionServer) error
 	mustEmbedUnimplementedStoreServiceServer()
 }
 
@@ -191,6 +225,9 @@ func (UnimplementedStoreServiceServer) StreamBatchTransaction(StoreService_Strea
 }
 func (UnimplementedStoreServiceServer) ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListBalance not implemented")
+}
+func (UnimplementedStoreServiceServer) StreamCheckTransaction(StoreService_StreamCheckTransactionServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamCheckTransaction not implemented")
 }
 func (UnimplementedStoreServiceServer) mustEmbedUnimplementedStoreServiceServer() {}
 
@@ -357,6 +394,32 @@ func _StoreService_ListBalance_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StoreService_StreamCheckTransaction_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(StoreServiceServer).StreamCheckTransaction(&storeServiceStreamCheckTransactionServer{stream})
+}
+
+type StoreService_StreamCheckTransactionServer interface {
+	Send(*StreamCheckTransactionResponse) error
+	Recv() (*StreamCheckTransactionRequest, error)
+	grpc.ServerStream
+}
+
+type storeServiceStreamCheckTransactionServer struct {
+	grpc.ServerStream
+}
+
+func (x *storeServiceStreamCheckTransactionServer) Send(m *StreamCheckTransactionResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *storeServiceStreamCheckTransactionServer) Recv() (*StreamCheckTransactionRequest, error) {
+	m := new(StreamCheckTransactionRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // StoreService_ServiceDesc is the grpc.ServiceDesc for StoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -397,6 +460,12 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamBatchTransaction",
 			Handler:       _StoreService_StreamBatchTransaction_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamCheckTransaction",
+			Handler:       _StoreService_StreamCheckTransaction_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},

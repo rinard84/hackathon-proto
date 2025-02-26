@@ -83,3 +83,10 @@ message ListBalanceResponse {
   }
   repeated Data data = 1;
 }
+
+message StreamCheckTransactionRequest {
+  int64 id = 1 [(validate.rules).int64.gt = 0];
+}
+message StreamCheckTransactionResponse {
+  bool exited = 1;
+}

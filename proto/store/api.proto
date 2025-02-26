@@ -50,4 +50,10 @@ service StoreService {
       get : "/api/balances",
     };
   }
+  rpc StreamCheckTransaction(stream StreamCheckTransactionRequest) returns (stream StreamCheckTransactionResponse) {
+    option (google.api.http) = {
+      post : "/api/streams/check-transactions",
+      body : "*",
+    };
+  }
 }
