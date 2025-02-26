@@ -32,7 +32,7 @@ var file_store_api_proto_rawDesc = string([]byte{
 	0x74, 0x6f, 0x1a, 0x10, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2f, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x32, 0xbc, 0x07, 0x0a, 0x0c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x6f, 0x32, 0xec, 0x08, 0x0a, 0x0c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x12, 0x6a, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63, 0x63, 0x6f,
 	0x75, 0x6e, 0x74, 0x12, 0x27, 0x2e, 0x62, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74,
 	0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63,
@@ -92,6 +92,17 @@ var file_store_api_proto_rawDesc = string([]byte{
 	0x65, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63,
 	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x15, 0x82, 0xd3, 0xe4, 0x93, 0x02,
 	0x0f, 0x12, 0x0d, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x73,
+	0x12, 0xad, 0x01, 0x0a, 0x16, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x43, 0x68, 0x65, 0x63, 0x6b,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x30, 0x2e, 0x62, 0x61,
+	0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e,
+	0x62, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x2a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x24, 0x3a, 0x01, 0x2a, 0x22, 0x1f, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x73, 0x2f, 0x63, 0x68, 0x65, 0x63, 0x6b, 0x2d,
+	0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x28, 0x01, 0x30, 0x01,
 	0x42, 0xac, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64,
 	0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x42, 0x08, 0x41, 0x70, 0x69, 0x50,
 	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
@@ -107,20 +118,22 @@ var file_store_api_proto_rawDesc = string([]byte{
 })
 
 var file_store_api_proto_goTypes = []any{
-	(*CreateAccountRequest)(nil),          // 0: backend.store.api.CreateAccountRequest
-	(*ResetRequest)(nil),                  // 1: backend.store.api.ResetRequest
-	(*CreditRequest)(nil),                 // 2: backend.store.api.CreditRequest
-	(*DebitRequest)(nil),                  // 3: backend.store.api.DebitRequest
-	(*GetUserBalanceRequest)(nil),         // 4: backend.store.api.GetUserBalanceRequest
-	(*CheckTransactionRequest)(nil),       // 5: backend.store.api.CheckTransactionRequest
-	(*StreamBatchTransactionRequest)(nil), // 6: backend.store.api.StreamBatchTransactionRequest
-	(*ListBalanceRequest)(nil),            // 7: backend.store.api.ListBalanceRequest
-	(*emptypb.Empty)(nil),                 // 8: google.protobuf.Empty
-	(*CreditResponse)(nil),                // 9: backend.store.api.CreditResponse
-	(*DebitResponse)(nil),                 // 10: backend.store.api.DebitResponse
-	(*GetUserBalanceResponse)(nil),        // 11: backend.store.api.GetUserBalanceResponse
-	(*CheckTransactionResponse)(nil),      // 12: backend.store.api.CheckTransactionResponse
-	(*ListBalanceResponse)(nil),           // 13: backend.store.api.ListBalanceResponse
+	(*CreateAccountRequest)(nil),           // 0: backend.store.api.CreateAccountRequest
+	(*ResetRequest)(nil),                   // 1: backend.store.api.ResetRequest
+	(*CreditRequest)(nil),                  // 2: backend.store.api.CreditRequest
+	(*DebitRequest)(nil),                   // 3: backend.store.api.DebitRequest
+	(*GetUserBalanceRequest)(nil),          // 4: backend.store.api.GetUserBalanceRequest
+	(*CheckTransactionRequest)(nil),        // 5: backend.store.api.CheckTransactionRequest
+	(*StreamBatchTransactionRequest)(nil),  // 6: backend.store.api.StreamBatchTransactionRequest
+	(*ListBalanceRequest)(nil),             // 7: backend.store.api.ListBalanceRequest
+	(*StreamCheckTransactionRequest)(nil),  // 8: backend.store.api.StreamCheckTransactionRequest
+	(*emptypb.Empty)(nil),                  // 9: google.protobuf.Empty
+	(*CreditResponse)(nil),                 // 10: backend.store.api.CreditResponse
+	(*DebitResponse)(nil),                  // 11: backend.store.api.DebitResponse
+	(*GetUserBalanceResponse)(nil),         // 12: backend.store.api.GetUserBalanceResponse
+	(*CheckTransactionResponse)(nil),       // 13: backend.store.api.CheckTransactionResponse
+	(*ListBalanceResponse)(nil),            // 14: backend.store.api.ListBalanceResponse
+	(*StreamCheckTransactionResponse)(nil), // 15: backend.store.api.StreamCheckTransactionResponse
 }
 var file_store_api_proto_depIdxs = []int32{
 	0,  // 0: backend.store.api.StoreService.CreateAccount:input_type -> backend.store.api.CreateAccountRequest
@@ -131,16 +144,18 @@ var file_store_api_proto_depIdxs = []int32{
 	5,  // 5: backend.store.api.StoreService.CheckTransaction:input_type -> backend.store.api.CheckTransactionRequest
 	6,  // 6: backend.store.api.StoreService.StreamBatchTransaction:input_type -> backend.store.api.StreamBatchTransactionRequest
 	7,  // 7: backend.store.api.StoreService.ListBalance:input_type -> backend.store.api.ListBalanceRequest
-	8,  // 8: backend.store.api.StoreService.CreateAccount:output_type -> google.protobuf.Empty
-	8,  // 9: backend.store.api.StoreService.Reset:output_type -> google.protobuf.Empty
-	9,  // 10: backend.store.api.StoreService.Credit:output_type -> backend.store.api.CreditResponse
-	10, // 11: backend.store.api.StoreService.Debit:output_type -> backend.store.api.DebitResponse
-	11, // 12: backend.store.api.StoreService.GetUserBalance:output_type -> backend.store.api.GetUserBalanceResponse
-	12, // 13: backend.store.api.StoreService.CheckTransaction:output_type -> backend.store.api.CheckTransactionResponse
-	8,  // 14: backend.store.api.StoreService.StreamBatchTransaction:output_type -> google.protobuf.Empty
-	13, // 15: backend.store.api.StoreService.ListBalance:output_type -> backend.store.api.ListBalanceResponse
-	8,  // [8:16] is the sub-list for method output_type
-	0,  // [0:8] is the sub-list for method input_type
+	8,  // 8: backend.store.api.StoreService.StreamCheckTransaction:input_type -> backend.store.api.StreamCheckTransactionRequest
+	9,  // 9: backend.store.api.StoreService.CreateAccount:output_type -> google.protobuf.Empty
+	9,  // 10: backend.store.api.StoreService.Reset:output_type -> google.protobuf.Empty
+	10, // 11: backend.store.api.StoreService.Credit:output_type -> backend.store.api.CreditResponse
+	11, // 12: backend.store.api.StoreService.Debit:output_type -> backend.store.api.DebitResponse
+	12, // 13: backend.store.api.StoreService.GetUserBalance:output_type -> backend.store.api.GetUserBalanceResponse
+	13, // 14: backend.store.api.StoreService.CheckTransaction:output_type -> backend.store.api.CheckTransactionResponse
+	9,  // 15: backend.store.api.StoreService.StreamBatchTransaction:output_type -> google.protobuf.Empty
+	14, // 16: backend.store.api.StoreService.ListBalance:output_type -> backend.store.api.ListBalanceResponse
+	15, // 17: backend.store.api.StoreService.StreamCheckTransaction:output_type -> backend.store.api.StreamCheckTransactionResponse
+	9,  // [9:18] is the sub-list for method output_type
+	0,  // [0:9] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

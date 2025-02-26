@@ -333,6 +333,49 @@ func local_request_StoreService_ListBalance_0(ctx context.Context, marshaler run
 
 }
 
+func request_StoreService_StreamCheckTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client StoreServiceClient, req *http.Request, pathParams map[string]string) (StoreService_StreamCheckTransactionClient, runtime.ServerMetadata, error) {
+	var metadata runtime.ServerMetadata
+	stream, err := client.StreamCheckTransaction(ctx)
+	if err != nil {
+		grpclog.Infof("Failed to start streaming: %v", err)
+		return nil, metadata, err
+	}
+	dec := marshaler.NewDecoder(req.Body)
+	handleSend := func() error {
+		var protoReq StreamCheckTransactionRequest
+		err := dec.Decode(&protoReq)
+		if err == io.EOF {
+			return err
+		}
+		if err != nil {
+			grpclog.Infof("Failed to decode request: %v", err)
+			return err
+		}
+		if err := stream.Send(&protoReq); err != nil {
+			grpclog.Infof("Failed to send request: %v", err)
+			return err
+		}
+		return nil
+	}
+	go func() {
+		for {
+			if err := handleSend(); err != nil {
+				break
+			}
+		}
+		if err := stream.CloseSend(); err != nil {
+			grpclog.Infof("Failed to terminate client stream: %v", err)
+		}
+	}()
+	header, err := stream.Header()
+	if err != nil {
+		grpclog.Infof("Failed to get header from client: %v", err)
+		return nil, metadata, err
+	}
+	metadata.HeaderMD = header
+	return stream, metadata, nil
+}
+
 // RegisterStoreServiceHandlerServer registers the http handlers for service StoreService to "mux".
 // UnaryRPC     :call StoreServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -519,6 +562,13 @@ func RegisterStoreServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 		forward_StoreService_ListBalance_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
+	})
+
+	mux.Handle("POST", pattern_StoreService_StreamCheckTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
+		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+		return
 	})
 
 	return nil
@@ -738,6 +788,28 @@ func RegisterStoreServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
+	mux.Handle("POST", pattern_StoreService_StreamCheckTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/backend.store.api.StoreService/StreamCheckTransaction", runtime.WithHTTPPathPattern("/api/streams/check-transactions"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_StoreService_StreamCheckTransaction_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_StoreService_StreamCheckTransaction_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -757,6 +829,8 @@ var (
 	pattern_StoreService_StreamBatchTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "streams", "transactions"}, ""))
 
 	pattern_StoreService_ListBalance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "balances"}, ""))
+
+	pattern_StoreService_StreamCheckTransaction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "streams", "check-transactions"}, ""))
 )
 
 var (
@@ -775,4 +849,6 @@ var (
 	forward_StoreService_StreamBatchTransaction_0 = runtime.ForwardResponseMessage
 
 	forward_StoreService_ListBalance_0 = runtime.ForwardResponseMessage
+
+	forward_StoreService_StreamCheckTransaction_0 = runtime.ForwardResponseStream
 )
