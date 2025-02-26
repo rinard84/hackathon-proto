@@ -27,6 +27,7 @@ const (
 	StoreService_GetUserBalance_FullMethodName         = "/backend.store.api.StoreService/GetUserBalance"
 	StoreService_CheckTransaction_FullMethodName       = "/backend.store.api.StoreService/CheckTransaction"
 	StoreService_StreamBatchTransaction_FullMethodName = "/backend.store.api.StoreService/StreamBatchTransaction"
+	StoreService_StreamTransaction_FullMethodName      = "/backend.store.api.StoreService/StreamTransaction"
 	StoreService_ListBalance_FullMethodName            = "/backend.store.api.StoreService/ListBalance"
 	StoreService_StreamCheckTransaction_FullMethodName = "/backend.store.api.StoreService/StreamCheckTransaction"
 )
@@ -42,6 +43,7 @@ type StoreServiceClient interface {
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 	CheckTransaction(ctx context.Context, in *CheckTransactionRequest, opts ...grpc.CallOption) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamBatchTransactionClient, error)
+	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamTransactionClient, error)
 	ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error)
 	StreamCheckTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamCheckTransactionClient, error)
 }
@@ -142,6 +144,40 @@ func (x *storeServiceStreamBatchTransactionClient) CloseAndRecv() (*emptypb.Empt
 	return m, nil
 }
 
+func (c *storeServiceClient) StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamTransactionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &StoreService_ServiceDesc.Streams[1], StoreService_StreamTransaction_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &storeServiceStreamTransactionClient{stream}
+	return x, nil
+}
+
+type StoreService_StreamTransactionClient interface {
+	Send(*StreamTransactionRequest) error
+	CloseAndRecv() (*emptypb.Empty, error)
+	grpc.ClientStream
+}
+
+type storeServiceStreamTransactionClient struct {
+	grpc.ClientStream
+}
+
+func (x *storeServiceStreamTransactionClient) Send(m *StreamTransactionRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *storeServiceStreamTransactionClient) CloseAndRecv() (*emptypb.Empty, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(emptypb.Empty)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *storeServiceClient) ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error) {
 	out := new(ListBalanceResponse)
 	err := c.cc.Invoke(ctx, StoreService_ListBalance_FullMethodName, in, out, opts...)
@@ -152,7 +188,7 @@ func (c *storeServiceClient) ListBalance(ctx context.Context, in *ListBalanceReq
 }
 
 func (c *storeServiceClient) StreamCheckTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamCheckTransactionClient, error) {
-	stream, err := c.cc.NewStream(ctx, &StoreService_ServiceDesc.Streams[1], StoreService_StreamCheckTransaction_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &StoreService_ServiceDesc.Streams[2], StoreService_StreamCheckTransaction_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -193,6 +229,7 @@ type StoreServiceServer interface {
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	CheckTransaction(context.Context, *CheckTransactionRequest) (*CheckTransactionResponse, error)
 	StreamBatchTransaction(StoreService_StreamBatchTransactionServer) error
+	StreamTransaction(StoreService_StreamTransactionServer) error
 	ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error)
 	StreamCheckTransaction(StoreService_StreamCheckTransactionServer) error
 	mustEmbedUnimplementedStoreServiceServer()
@@ -222,6 +259,9 @@ func (UnimplementedStoreServiceServer) CheckTransaction(context.Context, *CheckT
 }
 func (UnimplementedStoreServiceServer) StreamBatchTransaction(StoreService_StreamBatchTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamBatchTransaction not implemented")
+}
+func (UnimplementedStoreServiceServer) StreamTransaction(StoreService_StreamTransactionServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamTransaction not implemented")
 }
 func (UnimplementedStoreServiceServer) ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListBalance not implemented")
@@ -376,6 +416,32 @@ func (x *storeServiceStreamBatchTransactionServer) Recv() (*StreamBatchTransacti
 	return m, nil
 }
 
+func _StoreService_StreamTransaction_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(StoreServiceServer).StreamTransaction(&storeServiceStreamTransactionServer{stream})
+}
+
+type StoreService_StreamTransactionServer interface {
+	SendAndClose(*emptypb.Empty) error
+	Recv() (*StreamTransactionRequest, error)
+	grpc.ServerStream
+}
+
+type storeServiceStreamTransactionServer struct {
+	grpc.ServerStream
+}
+
+func (x *storeServiceStreamTransactionServer) SendAndClose(m *emptypb.Empty) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *storeServiceStreamTransactionServer) Recv() (*StreamTransactionRequest, error) {
+	m := new(StreamTransactionRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func _StoreService_ListBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListBalanceRequest)
 	if err := dec(in); err != nil {
@@ -460,6 +526,11 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamBatchTransaction",
 			Handler:       _StoreService_StreamBatchTransaction_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamTransaction",
+			Handler:       _StoreService_StreamTransaction_Handler,
 			ClientStreams: true,
 		},
 		{
