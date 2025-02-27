@@ -57,4 +57,10 @@ service StoreService {
       body : "*",
     };
   }
+  rpc SendBatchTransaction(SendBatchTransactionRequest) returns (SendBatchTransactionResponse) {
+    option (google.api.http) = {
+      post : "/api/send-batch-transactions",
+      body : "*",
+    };
+  }
 }

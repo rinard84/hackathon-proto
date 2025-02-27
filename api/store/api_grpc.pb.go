@@ -30,6 +30,7 @@ const (
 	StoreService_StreamTransaction_FullMethodName      = "/backend.store.api.StoreService/StreamTransaction"
 	StoreService_ListBalance_FullMethodName            = "/backend.store.api.StoreService/ListBalance"
 	StoreService_StreamCheckTransaction_FullMethodName = "/backend.store.api.StoreService/StreamCheckTransaction"
+	StoreService_SendBatchTransaction_FullMethodName   = "/backend.store.api.StoreService/SendBatchTransaction"
 )
 
 // StoreServiceClient is the client API for StoreService service.
@@ -46,6 +47,7 @@ type StoreServiceClient interface {
 	StreamTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamTransactionClient, error)
 	ListBalance(ctx context.Context, in *ListBalanceRequest, opts ...grpc.CallOption) (*ListBalanceResponse, error)
 	StreamCheckTransaction(ctx context.Context, opts ...grpc.CallOption) (StoreService_StreamCheckTransactionClient, error)
+	SendBatchTransaction(ctx context.Context, in *SendBatchTransactionRequest, opts ...grpc.CallOption) (*SendBatchTransactionResponse, error)
 }
 
 type storeServiceClient struct {
@@ -215,6 +217,15 @@ func (x *storeServiceStreamCheckTransactionClient) Recv() (*StreamCheckTransacti
 	return m, nil
 }
 
+func (c *storeServiceClient) SendBatchTransaction(ctx context.Context, in *SendBatchTransactionRequest, opts ...grpc.CallOption) (*SendBatchTransactionResponse, error) {
+	out := new(SendBatchTransactionResponse)
+	err := c.cc.Invoke(ctx, StoreService_SendBatchTransaction_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoreServiceServer is the server API for StoreService service.
 // All implementations must embed UnimplementedStoreServiceServer
 // for forward compatibility
@@ -229,6 +240,7 @@ type StoreServiceServer interface {
 	StreamTransaction(StoreService_StreamTransactionServer) error
 	ListBalance(context.Context, *ListBalanceRequest) (*ListBalanceResponse, error)
 	StreamCheckTransaction(StoreService_StreamCheckTransactionServer) error
+	SendBatchTransaction(context.Context, *SendBatchTransactionRequest) (*SendBatchTransactionResponse, error)
 	mustEmbedUnimplementedStoreServiceServer()
 }
 
@@ -265,6 +277,9 @@ func (UnimplementedStoreServiceServer) ListBalance(context.Context, *ListBalance
 }
 func (UnimplementedStoreServiceServer) StreamCheckTransaction(StoreService_StreamCheckTransactionServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamCheckTransaction not implemented")
+}
+func (UnimplementedStoreServiceServer) SendBatchTransaction(context.Context, *SendBatchTransactionRequest) (*SendBatchTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendBatchTransaction not implemented")
 }
 func (UnimplementedStoreServiceServer) mustEmbedUnimplementedStoreServiceServer() {}
 
@@ -483,6 +498,24 @@ func (x *storeServiceStreamCheckTransactionServer) Recv() (*StreamCheckTransacti
 	return m, nil
 }
 
+func _StoreService_SendBatchTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendBatchTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).SendBatchTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StoreService_SendBatchTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).SendBatchTransaction(ctx, req.(*SendBatchTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StoreService_ServiceDesc is the grpc.ServiceDesc for StoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -517,6 +550,10 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListBalance",
 			Handler:    _StoreService_ListBalance_Handler,
+		},
+		{
+			MethodName: "SendBatchTransaction",
+			Handler:    _StoreService_SendBatchTransaction_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

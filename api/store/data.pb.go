@@ -998,6 +998,94 @@ func (x *StreamCheckTransactionResponse) GetExited() bool {
 	return false
 }
 
+type SendBatchTransactionRequest struct {
+	state         protoimpl.MessageState              `protogen:"open.v1"`
+	Data          []*SendBatchTransactionRequest_Data `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendBatchTransactionRequest) Reset() {
+	*x = SendBatchTransactionRequest{}
+	mi := &file_store_data_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendBatchTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendBatchTransactionRequest) ProtoMessage() {}
+
+func (x *SendBatchTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_store_data_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendBatchTransactionRequest.ProtoReflect.Descriptor instead.
+func (*SendBatchTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_store_data_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *SendBatchTransactionRequest) GetData() []*SendBatchTransactionRequest_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type SendBatchTransactionResponse struct {
+	state         protoimpl.MessageState               `protogen:"open.v1"`
+	Data          []*SendBatchTransactionResponse_Data `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendBatchTransactionResponse) Reset() {
+	*x = SendBatchTransactionResponse{}
+	mi := &file_store_data_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendBatchTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendBatchTransactionResponse) ProtoMessage() {}
+
+func (x *SendBatchTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_store_data_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendBatchTransactionResponse.ProtoReflect.Descriptor instead.
+func (*SendBatchTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_store_data_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *SendBatchTransactionResponse) GetData() []*SendBatchTransactionResponse_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
 type ListUserTransactionsResponse_Data struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1009,7 +1097,7 @@ type ListUserTransactionsResponse_Data struct {
 
 func (x *ListUserTransactionsResponse_Data) Reset() {
 	*x = ListUserTransactionsResponse_Data{}
-	mi := &file_store_data_proto_msgTypes[19]
+	mi := &file_store_data_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1021,7 +1109,7 @@ func (x *ListUserTransactionsResponse_Data) String() string {
 func (*ListUserTransactionsResponse_Data) ProtoMessage() {}
 
 func (x *ListUserTransactionsResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_store_data_proto_msgTypes[19]
+	mi := &file_store_data_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1069,7 +1157,7 @@ type StreamBatchTransactionRequest_Data struct {
 
 func (x *StreamBatchTransactionRequest_Data) Reset() {
 	*x = StreamBatchTransactionRequest_Data{}
-	mi := &file_store_data_proto_msgTypes[20]
+	mi := &file_store_data_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1081,7 +1169,7 @@ func (x *StreamBatchTransactionRequest_Data) String() string {
 func (*StreamBatchTransactionRequest_Data) ProtoMessage() {}
 
 func (x *StreamBatchTransactionRequest_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_store_data_proto_msgTypes[20]
+	mi := &file_store_data_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1128,7 +1216,7 @@ type StreamBatchTransactionResponse_Data struct {
 
 func (x *StreamBatchTransactionResponse_Data) Reset() {
 	*x = StreamBatchTransactionResponse_Data{}
-	mi := &file_store_data_proto_msgTypes[21]
+	mi := &file_store_data_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1140,7 +1228,7 @@ func (x *StreamBatchTransactionResponse_Data) String() string {
 func (*StreamBatchTransactionResponse_Data) ProtoMessage() {}
 
 func (x *StreamBatchTransactionResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_store_data_proto_msgTypes[21]
+	mi := &file_store_data_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1180,7 +1268,7 @@ type ListBalanceResponse_Data struct {
 
 func (x *ListBalanceResponse_Data) Reset() {
 	*x = ListBalanceResponse_Data{}
-	mi := &file_store_data_proto_msgTypes[22]
+	mi := &file_store_data_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1192,7 +1280,7 @@ func (x *ListBalanceResponse_Data) String() string {
 func (*ListBalanceResponse_Data) ProtoMessage() {}
 
 func (x *ListBalanceResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_store_data_proto_msgTypes[22]
+	mi := &file_store_data_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1218,6 +1306,126 @@ func (x *ListBalanceResponse_Data) GetUid() int64 {
 func (x *ListBalanceResponse_Data) GetBalance() int32 {
 	if x != nil {
 		return x.Balance
+	}
+	return 0
+}
+
+type SendBatchTransactionRequest_Data struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Uid           int64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	Amo           int32                  `protobuf:"varint,3,opt,name=amo,proto3" json:"amo,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendBatchTransactionRequest_Data) Reset() {
+	*x = SendBatchTransactionRequest_Data{}
+	mi := &file_store_data_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendBatchTransactionRequest_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendBatchTransactionRequest_Data) ProtoMessage() {}
+
+func (x *SendBatchTransactionRequest_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_store_data_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendBatchTransactionRequest_Data.ProtoReflect.Descriptor instead.
+func (*SendBatchTransactionRequest_Data) Descriptor() ([]byte, []int) {
+	return file_store_data_proto_rawDescGZIP(), []int{19, 0}
+}
+
+func (x *SendBatchTransactionRequest_Data) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SendBatchTransactionRequest_Data) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *SendBatchTransactionRequest_Data) GetAmo() int32 {
+	if x != nil {
+		return x.Amo
+	}
+	return 0
+}
+
+type SendBatchTransactionResponse_Data struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Uid           int64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	Amo           int32                  `protobuf:"varint,3,opt,name=amo,proto3" json:"amo,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendBatchTransactionResponse_Data) Reset() {
+	*x = SendBatchTransactionResponse_Data{}
+	mi := &file_store_data_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendBatchTransactionResponse_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendBatchTransactionResponse_Data) ProtoMessage() {}
+
+func (x *SendBatchTransactionResponse_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_store_data_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendBatchTransactionResponse_Data.ProtoReflect.Descriptor instead.
+func (*SendBatchTransactionResponse_Data) Descriptor() ([]byte, []int) {
+	return file_store_data_proto_rawDescGZIP(), []int{20, 0}
+}
+
+func (x *SendBatchTransactionResponse_Data) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SendBatchTransactionResponse_Data) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *SendBatchTransactionResponse_Data) GetAmo() int32 {
+	if x != nil {
+		return x.Amo
 	}
 	return 0
 }
@@ -1342,24 +1550,48 @@ var file_store_data_proto_rawDesc = string([]byte{
 	0x52, 0x02, 0x69, 0x64, 0x22, 0x38, 0x0a, 0x1e, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x43, 0x68,
 	0x65, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x65, 0x78, 0x69, 0x74, 0x65, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x65, 0x78, 0x69, 0x74, 0x65, 0x64, 0x2a, 0x52,
-	0x0a, 0x0a, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x0b, 0x0a, 0x07,
-	0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4b, 0x10,
-	0x01, 0x12, 0x19, 0x0a, 0x15, 0x44, 0x75, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x65, 0x64, 0x54,
-	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x10, 0x02, 0x12, 0x14, 0x0a, 0x10,
-	0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x4e, 0x6f, 0x74, 0x45, 0x6e, 0x6f, 0x75, 0x67, 0x68,
-	0x10, 0x03, 0x42, 0xad, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x61, 0x63, 0x6b, 0x65,
-	0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x42, 0x09, 0x44, 0x61,
-	0x74, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69, 0x6e, 0x61, 0x72, 0x64, 0x38, 0x34, 0x2f, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x74, 0x6f, 0x72, 0x65, 0xa2, 0x02,
-	0x03, 0x42, 0x53, 0x41, 0xaa, 0x02, 0x11, 0x42, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x53,
-	0x74, 0x6f, 0x72, 0x65, 0x2e, 0x41, 0x70, 0x69, 0xca, 0x02, 0x11, 0x42, 0x61, 0x63, 0x6b, 0x65,
-	0x6e, 0x64, 0x5c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x5c, 0x41, 0x70, 0x69, 0xe2, 0x02, 0x1d, 0x42,
-	0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x5c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x5c, 0x41, 0x70, 0x69,
-	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x13, 0x42,
-	0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x3a, 0x3a, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x3a, 0x3a, 0x41,
-	0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x65, 0x78, 0x69, 0x74, 0x65, 0x64, 0x22, 0xbd,
+	0x01, 0x0a, 0x1b, 0x53, 0x65, 0x6e, 0x64, 0x42, 0x61, 0x74, 0x63, 0x68, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x47,
+	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x62,
+	0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x53, 0x65, 0x6e, 0x64, 0x42, 0x61, 0x74, 0x63, 0x68, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x44, 0x61, 0x74,
+	0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x55, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12,
+	0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x42, 0x07, 0xfa, 0x42, 0x04,
+	0x22, 0x02, 0x20, 0x00, 0x52, 0x02, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x22, 0x02, 0x20, 0x00, 0x52, 0x03,
+	0x75, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x03, 0x61, 0x6d, 0x6f, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05,
+	0x42, 0x07, 0xfa, 0x42, 0x04, 0x1a, 0x02, 0x38, 0x00, 0x52, 0x03, 0x61, 0x6d, 0x6f, 0x22, 0xbf,
+	0x01, 0x0a, 0x1c, 0x53, 0x65, 0x6e, 0x64, 0x42, 0x61, 0x74, 0x63, 0x68, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x48, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x34, 0x2e,
+	0x62, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x42, 0x61, 0x74, 0x63, 0x68, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x44,
+	0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x55, 0x0a, 0x04, 0x44, 0x61, 0x74,
+	0x61, 0x12, 0x17, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x42, 0x07, 0xfa,
+	0x42, 0x04, 0x22, 0x02, 0x20, 0x00, 0x52, 0x02, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x03, 0x75, 0x69,
+	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x22, 0x02, 0x20, 0x00,
+	0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x03, 0x61, 0x6d, 0x6f, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x05, 0x42, 0x07, 0xfa, 0x42, 0x04, 0x1a, 0x02, 0x38, 0x00, 0x52, 0x03, 0x61, 0x6d, 0x6f,
+	0x2a, 0x52, 0x0a, 0x0a, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x0b,
+	0x0a, 0x07, 0x55, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x4f,
+	0x4b, 0x10, 0x01, 0x12, 0x19, 0x0a, 0x15, 0x44, 0x75, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x65,
+	0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x10, 0x02, 0x12, 0x14,
+	0x0a, 0x10, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x4e, 0x6f, 0x74, 0x45, 0x6e, 0x6f, 0x75,
+	0x67, 0x68, 0x10, 0x03, 0x42, 0xad, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x61, 0x63,
+	0x6b, 0x65, 0x6e, 0x64, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x61, 0x70, 0x69, 0x42, 0x09,
+	0x44, 0x61, 0x74, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69, 0x6e, 0x61, 0x72, 0x64, 0x38, 0x34,
+	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x74, 0x6f, 0x72, 0x65,
+	0xa2, 0x02, 0x03, 0x42, 0x53, 0x41, 0xaa, 0x02, 0x11, 0x42, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64,
+	0x2e, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x2e, 0x41, 0x70, 0x69, 0xca, 0x02, 0x11, 0x42, 0x61, 0x63,
+	0x6b, 0x65, 0x6e, 0x64, 0x5c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x5c, 0x41, 0x70, 0x69, 0xe2, 0x02,
+	0x1d, 0x42, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x5c, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x5c, 0x41,
+	0x70, 0x69, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x13, 0x42, 0x61, 0x63, 0x6b, 0x65, 0x6e, 0x64, 0x3a, 0x3a, 0x53, 0x74, 0x6f, 0x72, 0x65, 0x3a,
+	0x3a, 0x41, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -1375,7 +1607,7 @@ func file_store_data_proto_rawDescGZIP() []byte {
 }
 
 var file_store_data_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_store_data_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_store_data_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_store_data_proto_goTypes = []any{
 	(StatusCode)(0),                             // 0: backend.store.api.StatusCode
 	(*CreateAccountRequest)(nil),                // 1: backend.store.api.CreateAccountRequest
@@ -1397,25 +1629,31 @@ var file_store_data_proto_goTypes = []any{
 	(*ListBalanceResponse)(nil),                 // 17: backend.store.api.ListBalanceResponse
 	(*StreamCheckTransactionRequest)(nil),       // 18: backend.store.api.StreamCheckTransactionRequest
 	(*StreamCheckTransactionResponse)(nil),      // 19: backend.store.api.StreamCheckTransactionResponse
-	(*ListUserTransactionsResponse_Data)(nil),   // 20: backend.store.api.ListUserTransactionsResponse.Data
-	(*StreamBatchTransactionRequest_Data)(nil),  // 21: backend.store.api.StreamBatchTransactionRequest.Data
-	(*StreamBatchTransactionResponse_Data)(nil), // 22: backend.store.api.StreamBatchTransactionResponse.Data
-	(*ListBalanceResponse_Data)(nil),            // 23: backend.store.api.ListBalanceResponse.Data
+	(*SendBatchTransactionRequest)(nil),         // 20: backend.store.api.SendBatchTransactionRequest
+	(*SendBatchTransactionResponse)(nil),        // 21: backend.store.api.SendBatchTransactionResponse
+	(*ListUserTransactionsResponse_Data)(nil),   // 22: backend.store.api.ListUserTransactionsResponse.Data
+	(*StreamBatchTransactionRequest_Data)(nil),  // 23: backend.store.api.StreamBatchTransactionRequest.Data
+	(*StreamBatchTransactionResponse_Data)(nil), // 24: backend.store.api.StreamBatchTransactionResponse.Data
+	(*ListBalanceResponse_Data)(nil),            // 25: backend.store.api.ListBalanceResponse.Data
+	(*SendBatchTransactionRequest_Data)(nil),    // 26: backend.store.api.SendBatchTransactionRequest.Data
+	(*SendBatchTransactionResponse_Data)(nil),   // 27: backend.store.api.SendBatchTransactionResponse.Data
 }
 var file_store_data_proto_depIdxs = []int32{
 	0,  // 0: backend.store.api.CreditResponse.code:type_name -> backend.store.api.StatusCode
 	0,  // 1: backend.store.api.DebitResponse.code:type_name -> backend.store.api.StatusCode
 	0,  // 2: backend.store.api.GetUserBalanceResponse.code:type_name -> backend.store.api.StatusCode
 	0,  // 3: backend.store.api.ListUserTransactionsResponse.code:type_name -> backend.store.api.StatusCode
-	20, // 4: backend.store.api.ListUserTransactionsResponse.data:type_name -> backend.store.api.ListUserTransactionsResponse.Data
-	21, // 5: backend.store.api.StreamBatchTransactionRequest.data:type_name -> backend.store.api.StreamBatchTransactionRequest.Data
-	22, // 6: backend.store.api.StreamBatchTransactionResponse.ignores:type_name -> backend.store.api.StreamBatchTransactionResponse.Data
-	23, // 7: backend.store.api.ListBalanceResponse.data:type_name -> backend.store.api.ListBalanceResponse.Data
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	22, // 4: backend.store.api.ListUserTransactionsResponse.data:type_name -> backend.store.api.ListUserTransactionsResponse.Data
+	23, // 5: backend.store.api.StreamBatchTransactionRequest.data:type_name -> backend.store.api.StreamBatchTransactionRequest.Data
+	24, // 6: backend.store.api.StreamBatchTransactionResponse.ignores:type_name -> backend.store.api.StreamBatchTransactionResponse.Data
+	25, // 7: backend.store.api.ListBalanceResponse.data:type_name -> backend.store.api.ListBalanceResponse.Data
+	26, // 8: backend.store.api.SendBatchTransactionRequest.data:type_name -> backend.store.api.SendBatchTransactionRequest.Data
+	27, // 9: backend.store.api.SendBatchTransactionResponse.data:type_name -> backend.store.api.SendBatchTransactionResponse.Data
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_store_data_proto_init() }
@@ -1429,7 +1667,7 @@ func file_store_data_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_store_data_proto_rawDesc), len(file_store_data_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   23,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
