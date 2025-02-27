@@ -121,7 +121,7 @@ func (c *storeServiceClient) StreamBatchTransaction(ctx context.Context, opts ..
 
 type StoreService_StreamBatchTransactionClient interface {
 	Send(*StreamBatchTransactionRequest) error
-	CloseAndRecv() (*emptypb.Empty, error)
+	Recv() (*StreamBatchTransactionResponse, error)
 	grpc.ClientStream
 }
 
@@ -133,11 +133,8 @@ func (x *storeServiceStreamBatchTransactionClient) Send(m *StreamBatchTransactio
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *storeServiceStreamBatchTransactionClient) CloseAndRecv() (*emptypb.Empty, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(emptypb.Empty)
+func (x *storeServiceStreamBatchTransactionClient) Recv() (*StreamBatchTransactionResponse, error) {
+	m := new(StreamBatchTransactionResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -395,7 +392,7 @@ func _StoreService_StreamBatchTransaction_Handler(srv interface{}, stream grpc.S
 }
 
 type StoreService_StreamBatchTransactionServer interface {
-	SendAndClose(*emptypb.Empty) error
+	Send(*StreamBatchTransactionResponse) error
 	Recv() (*StreamBatchTransactionRequest, error)
 	grpc.ServerStream
 }
@@ -404,7 +401,7 @@ type storeServiceStreamBatchTransactionServer struct {
 	grpc.ServerStream
 }
 
-func (x *storeServiceStreamBatchTransactionServer) SendAndClose(m *emptypb.Empty) error {
+func (x *storeServiceStreamBatchTransactionServer) Send(m *StreamBatchTransactionResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -526,6 +523,7 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamBatchTransaction",
 			Handler:       _StoreService_StreamBatchTransaction_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 		{

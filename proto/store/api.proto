@@ -39,7 +39,7 @@ service StoreService {
       get : "/api/transaction/{id}/check",
     };
   }
-  rpc StreamBatchTransaction(stream StreamBatchTransactionRequest) returns (google.protobuf.Empty) {
+  rpc StreamBatchTransaction(stream StreamBatchTransactionRequest) returns (stream StreamBatchTransactionResponse) {
     option (google.api.http) = {
       post : "/api/streams/transactions",
       body : "*",
